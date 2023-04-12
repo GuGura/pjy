@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:include="/public/loginheader.html"></div>
+
+<div id="isCheckId" th:text="${isCheckId}" hidden></div>
+<script>
+    var isCheckId = $("#isCheckId").text();
+    if (isCheckId == "true") {
+        console.log("isCheckId is true");
+    } else if(isCheckId == "false"){
+        console.log("isCheckId is false");
+    }
+
+</script>
+<div id="container">
+    <div id="containerT"></div>
+        <div id="logbox">
+            <!-- 디자인부분 -->
+            <div id="logoI" style="margin-bottom:0;">
+            </div>
+            <div id="LoginI" style="margin-top:20px;">
+                <img src="/static/image/login.png">
+            </div>
+            <div class="ts3" style="margin-bottom:30px;" >Sign In</div>
+            <!--/ -->
+            <!-- 구현부분 -->
+            <form name="form1" method="post" style="display: flex;flex-direction: column; align-items: center;">
+                <div style="display:flex;flex-direction: row;justify-content: center;">
+                    <input name="id" placeholder="아이디" style="width:56%;" required th:value="${id}"><input type="button" value="체크" onclick="checkId();">
+                </div>
+                <input type="password" name="password" placeholder="비밀번호" required th:value="${passwd}">
+                <input type="email" name="email" placeholder="Email" required th:value="${email}">
+                <div class="d-flex sub">
+                    <input type="button" value="확인" onclick="gb_update();">
+                </div>
+                <div class="d-flex singup">
+                    <a href="#"></a>
+                </div>
+                <!-- / -->
+            </form>
+        </div>
+    </div>
+</body>
+</html>

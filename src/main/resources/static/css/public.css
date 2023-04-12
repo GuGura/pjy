@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+.d-flex{
+  		display: flex;
+  		align-items: center;
+  	}.d-flex-dr{
+  		display: flex;
+  		flex-direction: row;
+  		align-items: center;
+  	}.d-flex-dc{
+  		display: flex;
+  		flex-direction: column;
+  		align-items: center;
+  	}.d-flexIn-dr{
+  		display: inline-flex;
+  		flex-direction: row;
+  		align-items: center;
+  	}.d-flexIn-dc{
+  		display: inline-flex;
+  		flex-direction: column;
+  		align-items: center;
+  	}.w-full{
+  		width: 100%;
+  	}

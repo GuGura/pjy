@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="kr">
+
+<div th:fragment="mainD_content">
+<div class="d-flex-dc" id="content">
+    <!-- itembox_n1
+        MainD:  카테고리, 유저
+        개인페이지: 배너 , 채널소개-->
+    <div class="w-full itembox_n1">
+        <!-- 상단 카테고리 -->
+        <div id="category" class="d-flex-dr w-full">
+            <div><input type="button" value="전체" onclick="category('a')"></div>
+            <div><input type="button" value="인기" onclick="category('p')"></div>
+            <div><input type="button" value="구독" onclick="category('s')"></div>
+        </div>
+        <!-- / -->
+        <!-- 유저 채널 표기칸 -->
+        <div id="itembox_n1_content">
+            <div class="itemss">
+                <div class="itemsss">
+                    <img src="/static/image/user.png" alt="이름" class="userImg"/>
+                </div>
+                <div class="d-flex-dc">
+                    <div>킹재연</div>
+                    <div class="d-flex-dr">
+                        <div style="margin-right:10px">좋아요 : 10명</div>
+                        <div>싫어요 : 5명</div>
+                    </div>
+                </div>
+            </div>
+            <div class="itemss">
+                <div class="itemsss">
+                    <img src="/static/image/user.png" alt="이름" class="userImg"/>
+                </div>
+                <div class="d-flex-dc">
+                    <div>zl존재연</div>
+                    <div class="d-flex-dr">
+                        <div style="margin-right:10px">좋아요 : 10명</div>
+                        <div>싫어요 : 5명</div>
+                    </div>
+                </div>
+            </div>
+            <div class="itemss">
+                <div class="itemsss">
+                    <img src="/static/image/user.png" alt="이름" class="userImg"/>
+                </div>
+                <div class="d-flex-dc">
+                    <div>황재연</div>
+                    <div class="d-flex-dr">
+                        <div style="margin-right:10px">좋아요 : 10명</div>
+                        <div>싫어요 : 5명</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  MainD:  유저 소개
+         개인페이지: div 두개 나눠서 위에는 메뉴바 밑에는 content
+     -->
+    <div class="w-full itembox_n2">
+        <div id="itembox_n2_content">
+            <div class="itemss">
+                <div class="itemsss">
+                    <img src="/static/image/user.png" alt="이름" class="userImg"/>
+                </div>
+                <div class="d-flex-dc">
+                    <div>전설의 재연</div>
+                    <div class="d-flex-dr">
+                        <div style="margin-right:10px">좋아요 : 10명</div>
+                        <div>싫어요 : 5명</div>
+                    </div>
+                </div>
+            </div>
+            <div class="itemss">
+                <div class="itemsss">
+                    <img src="/static/image/user.png" alt="이름" class="userImg"/>
+                </div>
+                <div class="d-flex-dc">
+                    <div>망해버린 재연</div>
+                    <div class="d-flex-dr">
+                        <div style="margin-right:10px">좋아요 : 10명</div>
+                        <div>싫어요 : 5명</div>
+                    </div>
+                </div>
+            </div>
+            <div class="itemss">
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</html>

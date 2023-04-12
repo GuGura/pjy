@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div style="display: flex;flex-direction: column;" id="content">
+    <!-- itembox_n1
+        MainD:  카테고리, 유저
+        개인페이지: 배너 , 채널소개-->
+    <div class="w-full itembox_n1">
+
+        <!-- 배너 이미지  -->
+        <div id="banner" class="d-flex-dr w-full">
+            <img src="/static/image/banner.jpg" class="userImg">
+        </div>
+        <!-- / -->
+
+        <div class="item1 w-full">
+            <div class="item2" style="width: 98%;padding-bottom: 0;">
+                <!-- 유저 프로필 -->
+                <div  class="userI">
+                    <img src="/static/image/login.png" class="userImg" style="filter: opacity(0.5);">
+                </div>
+                <!-- / -->
+                <!-- 채널 이름, 설명 -->
+                <div style="display:flex;flex-direction:column;flex:0.9;">
+                    <div style="font-size: 1.5em;margin-bottom:0.5em;">주신의 왕 박재연</div>
+                    <div>기본적인 채널의 주제는 주식입니다.</div>
+                </div>
+                <!-- / -->
+                <div class="d-flex" style="width:70px;">
+                    <div>좋아요</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 유저 아이콘 -->
+    <div style="height:30px;display:flex;" class="w-full">
+        <div style="display:flex;flex: 0.6;justify-content: space-around;align-items: center; text-align:center;" class="w-full">
+            <div class="menubar" onclick="showContent('home');">home</div>
+            <div class="menubar" onclick="showContent('community');">community</div>
+            <div class="menubar" onclick="showContent('board');">board</div>
+            <div class="menubar" onclick="showContent('info');">info</div>
+        </div>
+    </div>
+    <!-- / -->
+    <div class="w-full" style="border-bottom:1px solid;border-color: #E5E5E5;margin-bottom: 2px;"></div>
+    <!--  MainD:  유저 소개
+         개인페이지: div 두개 나눠서 위에는 메뉴바 밑에는 content
+     -->
+
+
+    <!-- Content -->
+    <div class="w-full itembox_n2" id="bbs_content1">
+        <div th:replace="~{/public/bbs_home.html}" style="display: flex"> </div>
+        <div th:replace="~{/public/bbs_community.html}"style="display:none"></div>
+    </div>
+    <!-- / -->
+</div>
+</html>

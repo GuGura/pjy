@@ -1,0 +1,58 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="kr">
+<!--session-->
+<div id="isLogin" th:text="${login}" hidden></div>
+
+<div id="header" class="d-flex-dr">
+    <div id="menu-logo" class="d-flex-dr">
+        <button type="button" id="btnMenu"><img src="/static/image/menu.png"></button>
+        <a href="/"><img src="/static/image/Logo.png"></a>
+    </div>
+    <div id="searchbox"class="d-flex-dr" >
+        <div id="searchHead"></div>
+        <input id="search" name="search" placeholder="검색">
+        <button id="btnSearch" type="button"><img src="/static/image/search.png"></button>
+    </div>
+    <div id="userInfo" class="d-flex">
+        <button type="button" id="btnInfo">유저</button>
+    </div>
+</div>
+<!-- / -->
+<!-- Navbar -->
+<div id="navbar" class="d-flexIn-dc">
+    <div class="navbar-items d-flex-dr w-full" id="btnHome">
+        <div class="d-flex"><i class="material-icons w-full div-i-on">home</i></div>
+        <div class="w-full div-text-on">홈</div>
+    </div>
+    <div class="navbar-items d-flex-dr w-full">
+        <div class="d-flex"><i class="material-icons w-full div-i-on">person_outline</i></div>
+        <div class="w-full div-text-on">유저</div>
+    </div>
+    <!-- 게스트/유저 상태표기 해줘야함 -->
+    <div id="box">
+        <div class="navbar-items d-flex-dr w-full" id="btnLogin" th:if="${session.login == null or session.login == false}">
+            <div class="d-flex"><i class="material-icons w-full div-i-on">login</i></div>
+            <div class="w-full div-text-on">로그인</div>
+        </div>
+        <div class="navbar-items d-flex-dr w-full" id="btnSingup" th:if="${session.login == null or session.login == false}">
+            <div class="d-flex"><i class="material-icons w-full div-i-on">person_add</i></div>
+            <div class="w-full div-text-on">회원가입</div>
+        </div>
+        <div class="navbar-items d-flex-dr w-full" id="btnLogout" th:if="${session.login == true}">
+            <div class="d-flex"><i class="material-icons w-full div-i-on">logout</i></div>
+            <div class="w-full div-text-on">로그아웃</div>
+        </div>
+    </div>
+    <!-- / -->
+
+    <div class="w-full" style="border-top: 1px solid;border-color: #E5E5E5;margin-bottom: 2px;">
+    </div>
+    <div class="navbar-items d-flex-dr w-full">
+        <div class="d-flex"><i class="material-icons w-full div-i-on">subscriptions</i></div>
+        <div class="w-full div-text-on">구독</div>
+    </div>
+    <div class="navbar-items d-flex-dr w-full">
+        <div class="d-flex"><i class="material-icons w-full div-i-on">chat</i></div>
+        <div class="w-full div-text-on">채팅</div>
+    </div>
+</div>
+</html>

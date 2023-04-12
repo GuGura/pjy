@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div id="isLogin" th:text="${login}" hidden></div>
+<div th:include="/public/login.html"></div>
+<div id="container">
+    <div id="containerT"></div>
+        <div id="logbox">
+            <!-- 디자인부분 -->
+            <div id="logoI">
+            </div>
+            <div id="LoginI">
+                <img src="/static/image/login.png">
+            </div>
+            <div class="ts3">Login</div>
+            <!-- / -->
+            <!-- 구현부분 -->
+            <form name="form1" method="post" style="display: flex;flex-direction: column; align-items: center;">
+                <input name="id" placeholder="아이디" th:value="${id}">
+                <input type="password" name="password" placeholder="비밀번호">
+                <div class="d-flex sub">
+                    <input type="button" value="확인" onclick="check_login();">
+                </div>
+            </form>
+            <div class="d-flex singup">
+                <a href="/singUp">회원가입</a>
+            </div>
+            <!-- / -->
+        </div>
+    </div>
+</body>
+</html>
