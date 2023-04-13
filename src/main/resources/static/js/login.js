@@ -6,7 +6,7 @@ $(function(){
 });
 
 function check_login() {
-    var id = $("input[name=id]");
+    var id = $("input[name=userID]");
     var passwd = $("input[name=password]");
     if (id.val() == "") {
         alert('아이디를 입력하세요');

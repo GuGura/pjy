@@ -2,7 +2,7 @@ package youtubep.pjy.domain;
 
 public class User {
 
-    private String id;
+    private String userID;
     private String password;
     private String email;
 
@@ -14,12 +14,12 @@ public class User {
         this.email = email;
     }
 
-    public String getId() {
-        return id;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getPassword() {

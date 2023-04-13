@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Mapper
-public interface MemberMapper {
+public interface UserMapper {
 
-    @Insert("INSERT INTO Users (id,password,email) values (#{id},#{password},#{email})")
+    @Insert("INSERT INTO Users (userID,password,email) values (#{userID},#{password},#{email})")
     void save(User user);
 
-    @Select("SELECT COUNT(*) FROM Users WHERE id = #{id} and password = #{password}")
+    @Select("SELECT COUNT(*) FROM Users WHERE userID = #{userID} and password = #{password}")
     Optional<Integer> findUser(User user);
 
-    @Select("SELECT * FROM Users WHERE id = #{id}")
+    @Select("SELECT * FROM Users WHERE userID = #{userID}")
     Optional<User> findById(String id);
 
     @Select("SELECT * FROM Users WHERE email = #{email}")

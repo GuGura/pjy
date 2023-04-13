@@ -43,7 +43,7 @@ $(function(){
 	$('.itemsss').click(function(){
 		location.href="/bbs";
 	});
-	
+
 	category('a');
 });
 
@@ -72,4 +72,7 @@ function category(x){
 		$('#category > div:nth-of-type(1) input').css('background-color','#F2F2F2');
 		$('#category > div:nth-of-type(1) input').css('color','black');
 	}
+}
+function myPage(){
+	location.href="/MyPage";
 }

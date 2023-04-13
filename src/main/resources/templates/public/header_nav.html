@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="kr">
 <!--session-->
-<div id="isLogin" th:text="${login}" hidden></div>
+<div id="isLogin" th:text="${session.login}" hidden></div>
 
 <div id="header" class="d-flex-dr">
     <div id="menu-logo" class="d-flex-dr">
@@ -13,7 +13,9 @@
         <button id="btnSearch" type="button"><img src="/static/image/search.png"></button>
     </div>
     <div id="userInfo" class="d-flex">
-        <button type="button" id="btnInfo">유저</button>
+        <!-- 이미지로 바꿔야함-->
+        <button type="button" class="btnInfo" onclick="myPage();" th:if="${session.userID != null}" th:text="${session.userID.toUpperCase().substring(0,2)}"></button>
+        <button type="button" class="btnInfo" onclick="" th:if="${session.userID == null}">G</button>
     </div>
 </div>
 <!-- / -->

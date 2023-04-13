@@ -11,12 +11,12 @@ import youtubep.pjy.service.MemberService;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class MemberController {
+public class UserController {
 
     private MemberService memberService;
 
     @Autowired
-    public MemberController(MemberService memberService) {
+    public UserController(MemberService memberService) {
         this.memberService = memberService;
     }
 
@@ -33,19 +33,19 @@ public class MemberController {
     @PostMapping("/login")
     public String loginCheck(LoginForm form, HttpSession session, Model model){
         User user = new User();
-        user.setId(form.getId());
+        user.setUserID(form.getUserID());
         user.setPassword(form.getPassword());
         int result = memberService.login(user);
         if(result == 1){
             // 로그인 성공 시 세션에 정보를 담아서 리다이렉트
             session.setAttribute("login", true);
-            session.setAttribute("id",form.getId());
+            session.setAttribute("userID",form.getUserID());
             System.out.println("321");
             return "main_public";
         }else{
             // 로그인 실패 시 모델에 에러 메시지를 담아서 포워드
             model.addAttribute("login","false");
-            model.addAttribute("id", form.getId());
+            model.addAttribute("userID", form.getUserID());
             return "login";
         }
     }
@@ -61,7 +61,7 @@ public class MemberController {
     @PostMapping("/singUp")
     public String singUpCheck(SingUpForm form, Model model){
         User user = new User();
-        user.setId(form.getId());
+        user.setUserID(form.getUserID());
         user.setPassword(form.getPassword());
         user.setEmail(form.getEmail());
         memberService.join(user);
@@ -81,12 +81,12 @@ public class MemberController {
      */
     @PostMapping("/checkId")
     public String checkId(SingUpForm form,Model model){
-        boolean result = memberService.validateDuplicateMember(form.getId());
+        boolean result = memberService.validateDuplicateMember(form.getUserID());
         if(result == true){
             model.addAttribute("isCheckId","true");
         }else if(result == false){
             model.addAttribute("isCheckId","false");
-            model.addAttribute("id",form.getId());
+            model.addAttribute("userID",form.getUserID());
             model.addAttribute("passwd",form.getPassword());
             model.addAttribute("email",form.getEmail());
         }

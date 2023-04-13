@@ -1,15 +1,15 @@
 package youtubep.pjy.controller;
 
 public class LoginForm {
-    private String id;
+    private String userID;
     private String password;
 
-    public String getId() {
-        return id;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getPassword() {

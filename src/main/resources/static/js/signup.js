@@ -1,5 +1,3 @@
-
-
 $(function(){
     var isCheckId = $("#isCheckId").text();
     if(isCheckId == "true"){
@@ -8,21 +6,25 @@ $(function(){
         alert("사용가능한 아이디입니다.");
     }
 });
+
 function checkId(){
-    var id = $("input[name=id]");
+    var id = $("input[name=userID]");
     if(id.val() == null || id.val().trim().length === 0){
         alert("아이디를 입력해주세요");
+        console.log("1234");
     }
     else{
+        console.log("123");
         document.form1.action = "/checkId";
         document.form1.submit();
     }
 }
 
 function gb_update() {
-    var id = $("input[name=id]");
+    var id = $("input[name=userID]");
     var email = $("input[name=email]");
     var passwd = $("input[name=password]");
+    var isCheckId = $("#isCheckId").text();
     if (id.val() == "") {
         alert('아이디를 입력하세요');
         id.focus();

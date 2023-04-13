@@ -94,7 +94,7 @@ body{
 	}
 
 	/** -----userInfo----- **/
-	#btnInfo{
+	.btnInfo{
 		width: 35px;
 		height: 35px;
 		border-radius: 50%;
@@ -103,9 +103,8 @@ body{
     	border: none;
     	font-size: 0.5em;
 	}
-	#btnInfo:active{
-		border:1px solid;
-		border-color: blue;
+	.btnInfo:active{
+		border: 1px solid blue;
 	}
 
 
