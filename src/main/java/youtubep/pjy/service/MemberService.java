@@ -3,7 +3,7 @@ package youtubep.pjy.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import youtubep.pjy.domain.Member;
+import youtubep.pjy.domain.User;
 import youtubep.pjy.mapper.MemberMapper;
 
 import java.util.Optional;
@@ -20,19 +20,19 @@ public class MemberService {
 
     /**
      * 로그인
-     * @param member
+     * @param user
      * @return 회원이 존재하면 1, 없으면 0
      */
-    public int login(Member member){
-        return memberMapper.findUser(member).orElse(0);
+    public int login(User user){
+        return memberMapper.findUser(user).orElse(0);
     }
 
     /**
      * 회원가입
-     * @param member
+     * @param user
      */
-    public void join(Member member) {
-        memberMapper.save(member);
+    public void join(User user) {
+        memberMapper.save(user);
     }
 
     /**
@@ -41,7 +41,7 @@ public class MemberService {
      * @return boolean, 이미 아이디가 존재하면 true, 아이디가 존재하지않으면 false
      */
     public boolean validateDuplicateMember(String id) {
-        Optional<Member> result = memberMapper.findById(id);
+        Optional<User> result = memberMapper.findById(id);
         return result.isPresent();
     }
 }

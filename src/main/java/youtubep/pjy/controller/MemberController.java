@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import youtubep.pjy.domain.Member;
+import youtubep.pjy.domain.User;
 import youtubep.pjy.service.MemberService;
 
 import javax.servlet.http.HttpSession;
@@ -32,10 +32,10 @@ public class MemberController {
      */
     @PostMapping("/login")
     public String loginCheck(LoginForm form, HttpSession session, Model model){
-        Member member = new Member();
-        member.setId(form.getId());
-        member.setPassword(form.getPassword());
-        int result = memberService.login(member);
+        User user = new User();
+        user.setId(form.getId());
+        user.setPassword(form.getPassword());
+        int result = memberService.login(user);
         if(result == 1){
             // 로그인 성공 시 세션에 정보를 담아서 리다이렉트
             session.setAttribute("login", true);
@@ -60,11 +60,11 @@ public class MemberController {
      */
     @PostMapping("/singUp")
     public String singUpCheck(SingUpForm form, Model model){
-        Member member = new Member();
-        member.setId(form.getId());
-        member.setPassword(form.getPassword());
-        member.setEmail(form.getEmail());
-        memberService.join(member);
+        User user = new User();
+        user.setId(form.getId());
+        user.setPassword(form.getPassword());
+        user.setEmail(form.getEmail());
+        memberService.join(user);
         return "redirect:/";
     }
 

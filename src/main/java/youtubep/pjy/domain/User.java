@@ -1,6 +1,6 @@
 package youtubep.pjy.domain;
 
-public class Member {
+public class User {
 
     private String id;
     private String password;

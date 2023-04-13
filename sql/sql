@@ -1,0 +1,8 @@
+--USER table
+create table USERs
+(
+    id       varchar2(50) primary key,
+    password varchar2(50)  not null,
+    email    varchar2(100) not null
+);
+select * from USERs;
