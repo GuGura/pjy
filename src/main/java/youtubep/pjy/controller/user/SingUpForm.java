@@ -1,8 +1,9 @@
-package youtubep.pjy.controller;
+package youtubep.pjy.controller.user;
 
-public class LoginForm {
+public class SingUpForm {
     private String userID;
     private String password;
+    private String email;
 
     public String getUserID() {
         return userID;
@@ -18,5 +19,13 @@ public class LoginForm {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

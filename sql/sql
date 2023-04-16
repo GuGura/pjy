@@ -1,8 +1,51 @@
---USER table
-create table USERs
+--USER
+select *
+from Users;
+DROP TABLE USERS;
+create table Users
 (
-    id       varchar2(50) primary key,
-    password varchar2(50)  not null,
-    email    varchar2(100) not null
+    userID     varchar2(50) primary key,
+    password   varchar2(50)                 not null,
+    email      varchar2(100)                not null,
+    join_date  DATE         DEFAULT SYSDATE NOT NULL,
+    checkEmail varchar2(10) default 'false'
 );
-select * from USERs;
+commit;
+
+SELECT COUNT(*)
+FROM Users
+WHERE userID = 'wodus331'
+  and password = '1234';
+DROP TABLE channel_info;
+--channel_info
+create table channel_info
+(
+    userID      varchar2(50),                        -- 유저 아이디(FK(Users))
+    Channel_id  NUMBER(10) PRIMARY KEY,              --채널 아이디(PK)
+    Chanel_Name varchar2(100),                       --채널이름
+    description varchar2(150) default '채널 자세히 알아보기', -- 채널_설명
+    views       NUMBER        default 0,             -- 조회수
+    location    varchar2(50),                        -- 위치정보
+    Propel      varchar2(100)                        --프로필사진
+);
+
+CREATE TABLE channel_content
+(
+    content_id   NUMBER(10) PRIMARY KEY, -- 고유ID
+    Channel_id   NUMBER(10),             --channel_info(FK)
+    content_type varchar2(20),           --타입(게시판, 커뮤니티, 게시판-동영상, 게시판-글....)
+    description  CLOB,                   -- 내용
+    url          varchar2(255)           -- url
+);
+
+create table channel_comment --댓글
+(
+    comment_id   NUMBER(10) PRIMARY KEY, --고유ID
+    content_id   NUMBER(10),             --FK(channel_content)
+    userID       varchar2(50),           --FK(Users)
+    comment_text CLOB                    --댓글 내용
+);
+
+--시간나면 추가할 테이블
+-- Likey 조아요 테이블   Channel_id |  content_id(조건) | likey
+-- CheckGmail Gmail인증 확인 테이블

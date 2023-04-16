@@ -10,11 +10,11 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class MemberService {
+public class UserService {
     private final UserMapper userMapper;
 
     @Autowired
-    public MemberService(UserMapper userMapper) {
+    public UserService(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 

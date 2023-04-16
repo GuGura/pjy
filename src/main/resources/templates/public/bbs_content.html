@@ -36,10 +36,10 @@
     <!-- 유저 아이콘 -->
     <div style="height:30px;display:flex;" class="w-full">
         <div style="display:flex;flex: 0.6;justify-content: space-around;align-items: center; text-align:center;" class="w-full">
-            <div class="menubar" onclick="showContent('home');">home</div>
-            <div class="menubar" onclick="showContent('community');">community</div>
-            <div class="menubar" onclick="showContent('board');">board</div>
-            <div class="menubar" onclick="showContent('info');">info</div>
+            <div class="menubar" onclick="showContent('Home');" style="font-size: large">Home</div>
+            <div class="menubar" onclick="showContent('Community');" style="font-size: large">Community</div>
+            <div class="menubar" onclick="showContent('Board');" style="font-size: large">Board</div>
+            <div class="menubar" onclick="showContent('Info');" style="font-size: large">Info</div>
         </div>
     </div>
     <!-- / -->
@@ -51,8 +51,9 @@
 
     <!-- Content -->
     <div class="w-full itembox_n2" id="bbs_content1">
-        <div th:replace="~{/public/bbs_home.html}" > </div>
-        <div th:replace="~{/public/bbs_community.html}" ></div>
+        <div th:replace="~{/public/bbs_Home.html}" > </div>
+        <div th:replace="~{/public/bbs_Community.html}" ></div>
+        <div th:replace="~{/public/bbs_Info.html}" ></div>
     </div>
     <!-- / -->
 </div>

@@ -1,4 +1,4 @@
-package youtubep.pjy.controller;
+package youtubep.pjy.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,18 +6,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import youtubep.pjy.domain.User;
-import youtubep.pjy.service.MemberService;
+import youtubep.pjy.service.UserService;
 
 import javax.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
 
-    private MemberService memberService;
+    private UserService userService;
 
     @Autowired
-    public UserController(MemberService memberService) {
-        this.memberService = memberService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/login")
@@ -35,7 +35,7 @@ public class UserController {
         User user = new User();
         user.setUserID(form.getUserID());
         user.setPassword(form.getPassword());
-        int result = memberService.login(user);
+        int result = userService.login(user);
         if(result == 1){
             // 로그인 성공 시 세션에 정보를 담아서 리다이렉트
             session.setAttribute("login", true);
@@ -64,7 +64,7 @@ public class UserController {
         user.setUserID(form.getUserID());
         user.setPassword(form.getPassword());
         user.setEmail(form.getEmail());
-        memberService.join(user);
+        userService.join(user);
         return "redirect:/";
     }
 
@@ -81,7 +81,7 @@ public class UserController {
      */
     @PostMapping("/checkId")
     public String checkId(SingUpForm form,Model model){
-        boolean result = memberService.validateDuplicateMember(form.getUserID());
+        boolean result = userService.validateDuplicateMember(form.getUserID());
         if(result == true){
             model.addAttribute("isCheckId","true");
         }else if(result == false){
