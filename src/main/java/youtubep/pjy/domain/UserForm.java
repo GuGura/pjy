@@ -2,7 +2,7 @@ package youtubep.pjy.domain;
 
 import java.util.Date;
 
-public class User {
+public class UserForm {
     private int user_UID;
     private String userID;
     private String password;

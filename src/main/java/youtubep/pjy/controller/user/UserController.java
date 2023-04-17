@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import youtubep.pjy.domain.User;
+import youtubep.pjy.domain.UserForm;
 import youtubep.pjy.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -31,7 +32,7 @@ public class UserController {
      * @param session  로그인 성공 시 login,form.getId() 전달
      */
     @PostMapping("/login")
-    public String loginCheck(LoginForm form, HttpSession session, Model model){
+    public String loginCheck(UserForm form, HttpSession session, Model model){
         User user = new User();
         user.setUserID(form.getUserID());
         user.setPassword(form.getPassword());
@@ -40,7 +41,6 @@ public class UserController {
             // 로그인 성공 시 세션에 정보를 담아서 리다이렉트
             session.setAttribute("login", true);
             session.setAttribute("userID",form.getUserID());
-            System.out.println("321");
             return "main_public";
         }else{
             // 로그인 실패 시 모델에 에러 메시지를 담아서 포워드
@@ -59,7 +59,7 @@ public class UserController {
      * 회원가입
      */
     @PostMapping("/singUp")
-    public String singUpCheck(SingUpForm form, Model model){
+    public String singUpCheck(UserForm form, Model model){
         User user = new User();
         user.setUserID(form.getUserID());
         user.setPassword(form.getPassword());
@@ -80,7 +80,7 @@ public class UserController {
      * @return 중복아이디 없으면 넘어온 파라미러 model에 담아서 보내줌
      */
     @PostMapping("/checkId")
-    public String checkId(SingUpForm form,Model model){
+    public String checkId(UserForm form,Model model){
         boolean result = userService.validateDuplicateMember(form.getUserID());
         if(result == true){
             model.addAttribute("isCheckId","true");

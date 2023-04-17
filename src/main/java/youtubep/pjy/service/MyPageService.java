@@ -2,7 +2,7 @@ package youtubep.pjy.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import youtubep.pjy.controller.mypage.MyPageInfo;
+import youtubep.pjy.domain.User;
 import youtubep.pjy.mapper.MyPageMapper;
 
 @Service
@@ -15,12 +15,19 @@ public class MyPageService {
         this.myPageMapper = myPageMapper;
     }
 
-    public MyPageInfo goMyPage(String userID) {
-        boolean result = myPageMapper.findUser(userID).isPresent();
-        if(result == false){
-            myPageMapper.saveID(userID);
-        }
-        return myPageMapper.findInfo(userID);
+    public User goMyPage(String userID) {
+        return myPageMapper.findMyInfo(userID);
     }
 
+    public String checkPassword(User user) {
+        int result =  myPageMapper.checkPassword(user);
+        if(result == 1)
+            return "bbs";
+        else
+            return "checkPassword";
+    }
+
+    public void update(User user) {
+        myPageMapper.update(user);
+    }
 }

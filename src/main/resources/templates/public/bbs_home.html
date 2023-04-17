@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<style>
+    select:focus{
+        outline: none;
+    }
+</style>
+<div id="HomeContent" style="display: none; flex-direction: column;">
+    <div style="display:flex;flex-direction:column;flex:1; margin-bottom: 5px;">
+        <!--상단 카테고리 / 영상 올리기-->
+        <div style="display: flex;flex: 1;justify-content: space-between;margin-bottom: 10px;">
+            <form style="display: flex;" method="post" name="Category">
+                <select id="videoCategory" name="videoCategory" style="border: none">
+                    <option value="recent" selected>최신영상</option>
+                    <option value="mostView">조회수높은영상</option>
+                    <option value="old">오래된영상</option>
+                    <option value="low">조회수낮은영상</option>
+                </select>
+            </form>
+            <div>
+                <button style="padding: 5px;border-color: black;background: white;font-size:small;" type="button"
+                        onclick="open();" th:if="${checkPasswd != true}">영상올리기
+                </button>
+            </div>
+        </div>
+        <div style="display:flex;">
+            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
+                <div style="width:100px;height:100px;">
+                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
+                </div>
+                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">유니티 전망</div>
+            </div>
+
+            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
+                <div style="width:100px;height:100px;">
+                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
+                </div>
+                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">게임스탑 전망</div>
+            </div>
+
+            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
+                <div style="width:100px;height:100px;">
+                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
+                </div>
+                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">지니 전망</div>
+            </div>
+
+            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
+                <div style="width:100px;height:100px;">
+                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
+                </div>
+                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">예야 전망</div>
+            </div>
+
+            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
+                <div style="width:100px;height:100px;">
+                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
+                </div>
+                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">AMC 전망</div>
+            </div>
+
+            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
+                <div style="width:100px;height:100px;">
+                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
+                </div>
+                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">컴플 전망</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full" style="border-bottom:1px solid;border-color: #E5E5E5;margin-bottom: 5px;"></div>
+
+    <div style="display:flex;flex-direction:column;flex:1">
+        <div style="padding:15px 5px;margin-left:10px;">추천 게시글</div>
+        <div style="display:flex;">
+            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
+                <div style="width:100px;height:100px;">
+                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
+                </div>
+                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">유니티 전망</div>
+            </div>
+
+            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
+                <div style="width:100px;height:100px;">
+                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
+                </div>
+                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">게임스탑 전망</div>
+            </div>
+
+            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
+                <div style="width:100px;height:100px;">
+                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
+                </div>
+                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">지니 전망</div>
+            </div>
+
+            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
+                <div style="width:100px;height:100px;">
+                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
+                </div>
+                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">예야 전망</div>
+            </div>
+
+            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
+                <div style="width:100px;height:100px;">
+                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
+                </div>
+                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">AMC 전망</div>
+            </div>
+
+            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
+                <div style="width:100px;height:100px;">
+                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
+                </div>
+                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">컴플 전망</div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

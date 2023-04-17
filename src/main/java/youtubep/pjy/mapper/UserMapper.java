@@ -11,7 +11,7 @@ import java.util.Optional;
 @Mapper
 public interface UserMapper {
 
-    @Insert("INSERT INTO Users (userID,password,email) values (#{userID},#{password},#{email})")
+    @Insert("INSERT INTO Users (user_UID,userID,password,email,CHANNEL_NAME) values (user_UID_seq.NEXTVAL,#{userID},#{password},#{email}, #{userID} ||'님 환영합니다')")
     void save(User user);
 
     @Select("SELECT COUNT(*) FROM Users WHERE userID = #{userID} and password = #{password}")

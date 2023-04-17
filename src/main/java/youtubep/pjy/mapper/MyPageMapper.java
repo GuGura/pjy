@@ -1,23 +1,19 @@
 package youtubep.pjy.mapper;
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import youtubep.pjy.controller.mypage.MyPageInfo;
+import org.apache.ibatis.annotations.Update;
 import youtubep.pjy.domain.User;
-
-import java.util.Optional;
 
 @Mapper
 public interface MyPageMapper {
 
-    @Insert("INSERT INTO channel_info (userID, Channel_id, Chanel_Name) VALUES (#{userID}, channel_id_seq.NEXTVAL, #{userID}||'님 어서오세요')")
-    void saveID(String userID);
+    @Select("SELECT * FROM Users WHERE userID = #{userID}")
+    User findMyInfo(String userID);
 
-    @Select("SELECT * FROM channel_info where userID = #{userID}")
-    Optional<User> findUser(String userID);
+    @Select("SELECT COUNT(*) FROM Users where userID = #{userID} and password = #{password}")
+    int checkPassword(User user);
 
-    @Select("SELECT * FROM channel_info WHERE userID = #{userID}")
-    MyPageInfo findInfo(String userID);
-
+    @Update("Update Users set channel_name = #{channel_name}, location = #{location}, description = #{description} where userID = #{userID}" )
+    void update(User user);
 }

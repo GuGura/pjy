@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<style>
+    input:focus {
+        outline: none;
+    }
+    textarea:focus{
+        outline: none;
+    }
+</style>
+
+<div id="InfoContent" style="display: flex; flex: 1" class="w-full">
+    <div style="display:flex;flex-direction:column;flex:1.6; margin-bottom: 5px; padding: 10px;">
+        <div style="padding:15px 5px;margin-left:10px;font-size: large;">설명</div>
+        <textarea id="description" name="description" style="resize:none;display:flex;flex-wrap: wrap;align-content: center;border: none; margin-left: 10px;
+        padding: 10px 5px 20px 5px;" th:readonly="${checkPasswd != true}">[[${session.MyInfo.description.replaceAll('^\\s+', '')}]]</textarea>
+        <div style="border-top: 1px solid;border-color: #E5E5E5;margin-bottom: 2px;margin-left: 10px;width:90%;"></div>
+
+        <div style="padding:15px 5px;margin-left:10px;font-size: large;">세부정보</div>
+        <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center; margin-left: 10px;padding: 10px 5px; color: #606060; font-size: small;"
+             th:text="'비즈니스 문의: '+ ${session.MyInfo.email}"></div>
+        <div style="display: flex; flex-direction: row;padding: 10px 5px 20px 10px;">
+            <span style="display:flex;margin-left: 5px;flex-wrap: wrap;color: #606060; font-size: small;"
+                  th:text="'위치: '" th:if="${session.MyInfo.location != null || checkPasswd == true}"></span>
+            <input type="text" name="location" style="display:flex;flex:1;flex-wrap: wrap;margin-left: 10px;align-content: center;border: none;color: #606060; font-size: small;
+        " th:if="${session.MyInfo.location != null || checkPasswd == true}"
+                   th:value="${session.MyInfo.location}" th:readonly="${checkPasswd != true}"/>
+        </div>
+
+        <div style="border-top: 1px solid;border-color: #E5E5E5;margin-bottom: 2px;margin-left: 10px;width:90%;"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;flex:1; margin-bottom: 5px; padding: 10px;">
+        <div style="padding:15px 5px;margin-left:10px;font-size: large;">통계</div>
+        <div style="border-top: 1px solid;border-color: #E5E5E5;margin-bottom: 2px;margin-left: 10px;width:90%;"></div>
+        <div style="display:flex;flex-wrap: wrap;align-content: center; margin-left: 10px;padding: 10px 5px;"
+             th:text="'가입일 : ' + ${#dates.format(session.MyInfo.join_date, 'yyyy.MM.dd')}"></div>
+        <div style="border-top: 1px solid;border-color: #E5E5E5;margin-bottom: 2px;margin-left: 10px;width:90%;"></div>
+        <div style="display:flex;flex-wrap: wrap;align-content: center; margin-left: 10px;padding: 10px 5px;">
+            <div>
+                <button style="padding: 7px;border-color: black;background: white;font-size: unset;" type="button"
+                        onclick="changeInfo();" th:if="${checkPasswd != true}">수정
+                </button>
+                <button style="padding: 7px;border-color: black;background: white;font-size: unset;" type="submit"
+                        th:if="${checkPasswd == true}">완료
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+</html>

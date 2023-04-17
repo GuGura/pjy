@@ -5,41 +5,43 @@
         MainD:  카테고리, 유저
         개인페이지: 배너 , 채널소개-->
     <div class="w-full itembox_n1">
-
-        <!-- 배너 이미지  -->
-        <div id="banner" class="d-flex-dr w-full">
-            <img src="/static/image/banner.jpg" class="userImg">
-        </div>
-        <!-- / -->
-
-        <div class="item1 w-full">
-            <div class="item2" style="width: 98%;padding-bottom: 0;">
-                <!-- 유저 프로필 -->
-                <div  class="userI">
-                    <img src="/static/image/login.png" class="userImg" style="filter: opacity(0.5);">
-                </div>
-                <!-- / -->
-                <!-- 채널 이름, 설명 -->
-                <div style="display:flex;flex-direction:column;flex:0.9;">
-                    <div style="font-size: 1.5em;margin-bottom:0.5em;">주신의 왕 박재연</div>
-                    <div>기본적인 채널의 주제는 주식입니다.</div>
-                </div>
-                <!-- / -->
-                <div class="d-flex" style="width:70px;">
-                    <div>좋아요</div>
-                </div>
+        <form name="form1" method="post" action="/update">
+            <!-- 배너 이미지  -->
+            <div id="banner" class="d-flex-dr w-full">
+                <img src="/static/image/banner.jpg" class="userImg">
             </div>
+            <!-- / -->
 
-        </div>
+            <div class="item1 w-full">
+                <div class="item2" style="width: 98%;padding-bottom: 0;">
+                    <!-- 유저 프로필 -->
+                    <div class="userI">
+                        <img src="/static/image/login.png" class="userImg" style="filter: opacity(0.5);">
+                    </div>
+                    <!-- / -->
+                    <!-- 채널 이름, 설명 -->
+                    <div style="display:flex;flex-direction:column;flex:0.9;">
+                        <input type="text" name="channel_name"
+                               style="font-size: 1.5em;margin-bottom:0.5em; border:none;"
+                               th:value="${session.MyInfo.channel_name}" th:readonly="${checkPasswd != true}"/>
+                        <div style="color: #606060;" th:text="${#strings.substringBefore(session.MyInfo.description, '&#10;')}"
+                             onclick="showContent('Info');">Info
+                        </div>
+                    </div>
+                    <!-- / -->
+
+                </div>
+
+            </div>
     </div>
 
     <!-- 유저 아이콘 -->
     <div style="height:30px;display:flex;" class="w-full">
-        <div style="display:flex;flex: 0.6;justify-content: space-around;align-items: center; text-align:center;" class="w-full">
-            <div class="menubar" onclick="showContent('Home');" style="font-size: large">Home</div>
-            <div class="menubar" onclick="showContent('Community');" style="font-size: large">Community</div>
-            <div class="menubar" onclick="showContent('Board');" style="font-size: large">Board</div>
-            <div class="menubar" onclick="showContent('Info');" style="font-size: large">Info</div>
+        <div style="display:flex;flex: 0.6;justify-content: flex-start;align-items: center; text-align:center;"
+             class="w-full">
+            <div class="menubar" onclick="showContent('Home');">Home</div>
+            <div class="menubar" onclick="showContent('MyList');">MyList</div>
+            <div class="menubar" onclick="showContent('Info');">Info</div>
         </div>
     </div>
     <!-- / -->
@@ -51,10 +53,11 @@
 
     <!-- Content -->
     <div class="w-full itembox_n2" id="bbs_content1">
-        <div th:replace="~{/public/bbs_Home.html}" > </div>
-        <div th:replace="~{/public/bbs_Community.html}" ></div>
-        <div th:replace="~{/public/bbs_Info.html}" ></div>
+        <div th:replace="~{/public/bbs_home.html}"></div>
+        <div th:replace="~{/public/bbs_myList.html}"></div>
+        <div th:replace="~{/public/bbs_info.html}"></div>
     </div>
+    <div style="height:200px;width:100%"></div>
     <!-- / -->
 </div>
 </html>
