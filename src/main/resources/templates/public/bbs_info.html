@@ -4,7 +4,8 @@
     input:focus {
         outline: none;
     }
-    textarea:focus{
+
+    textarea:focus {
         outline: none;
     }
 </style>
@@ -32,7 +33,7 @@
     <div style="display:flex;flex-direction:column;flex:1; margin-bottom: 5px; padding: 10px;">
         <div style="padding:15px 5px;margin-left:10px;font-size: large;">통계</div>
         <div style="border-top: 1px solid;border-color: #E5E5E5;margin-bottom: 2px;margin-left: 10px;width:90%;"></div>
-        <div style="display:flex;flex-wrap: wrap;align-content: center; margin-left: 10px;padding: 10px 5px;"
+        <div style="display:flex;flex-wrap: wrap;line-height: 2;align-content: center; margin-left: 10px;padding: 10px 5px;"
              th:text="'가입일 : ' + ${#dates.format(session.MyInfo.join_date, 'yyyy.MM.dd')}"></div>
         <div style="border-top: 1px solid;border-color: #E5E5E5;margin-bottom: 2px;margin-left: 10px;width:90%;"></div>
         <div style="display:flex;flex-wrap: wrap;align-content: center; margin-left: 10px;padding: 10px 5px;">
@@ -40,12 +41,10 @@
                 <button style="padding: 7px;border-color: black;background: white;font-size: unset;" type="button"
                         onclick="changeInfo();" th:if="${checkPasswd != true}">수정
                 </button>
-                <button style="padding: 7px;border-color: black;background: white;font-size: unset;" type="submit"
-                        th:if="${checkPasswd == true}">완료
-                </button>
+                <input style="padding: 7px;border-color: black;background: white;font-size: unset;" type="submit"
+                       th:if="${checkPasswd == true}" th:value="완료"/>
             </div>
         </div>
     </div>
 </div>
-</form>
 </html>

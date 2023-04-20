@@ -4,19 +4,18 @@
     <!-- itembox_n1
         MainD:  카테고리, 유저
         개인페이지: 배너 , 채널소개-->
+    <form id="forminfo" name="form1" method="post" action="/update">
     <div class="w-full itembox_n1">
-        <form name="form1" method="post" action="/update">
             <!-- 배너 이미지  -->
             <div id="banner" class="d-flex-dr w-full">
-                <img src="/static/image/banner.jpg" class="userImg">
+                <img src="/static/image/default/banner.jpg" class="userImg">
             </div>
             <!-- / -->
-
             <div class="item1 w-full">
                 <div class="item2" style="width: 98%;padding-bottom: 0;">
                     <!-- 유저 프로필 -->
                     <div class="userI">
-                        <img src="/static/image/login.png" class="userImg" style="filter: opacity(0.5);">
+                        <img alt="default" src="/static/image/default/login.png" class="userImg" style="filter: opacity(0.5);">
                     </div>
                     <!-- / -->
                     <!-- 채널 이름, 설명 -->
@@ -29,9 +28,7 @@
                         </div>
                     </div>
                     <!-- / -->
-
                 </div>
-
             </div>
     </div>
 
@@ -45,7 +42,7 @@
         </div>
     </div>
     <!-- / -->
-    <div class="w-full" style="border-bottom:1px solid;border-color: #E5E5E5;margin-bottom: 2px;"></div>
+    <div class="w-full" style="border-bottom:1px solid;border-color: #E5E5E5;margin-bottom: 10px;"></div>
     <!--  MainD:  유저 소개
          개인페이지: div 두개 나눠서 위에는 메뉴바 밑에는 content
      -->
@@ -54,10 +51,11 @@
     <!-- Content -->
     <div class="w-full itembox_n2" id="bbs_content1">
         <div th:replace="~{/public/bbs_home.html}"></div>
-        <div th:replace="~{/public/bbs_myList.html}"></div>
+<!--        <div th:replace="~{/public/bbs_myList.html}"></div>-->
         <div th:replace="~{/public/bbs_info.html}"></div>
     </div>
     <div style="height:200px;width:100%"></div>
     <!-- / -->
+    </form>
 </div>
 </html>

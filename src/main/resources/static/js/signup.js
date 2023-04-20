@@ -11,10 +11,8 @@ function checkId(){
     var id = $("input[name=userID]");
     if(id.val() == null || id.val().trim().length === 0){
         alert("아이디를 입력해주세요");
-        console.log("1234");
     }
     else{
-        console.log("123");
         document.form1.action = "/checkId";
         document.form1.submit();
     }

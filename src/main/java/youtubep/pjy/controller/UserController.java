@@ -1,4 +1,4 @@
-package youtubep.pjy.controller.user;
+package youtubep.pjy.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

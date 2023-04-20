@@ -1,4 +1,4 @@
-package youtubep.pjy.controller.mypage;
+package youtubep.pjy.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import youtubep.pjy.domain.User;
 import youtubep.pjy.domain.UserForm;
 import youtubep.pjy.service.MyPageService;
-import youtubep.pjy.service.UserService;
 
 import javax.servlet.http.HttpSession;
 @Controller

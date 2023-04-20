@@ -8,6 +8,16 @@ public class User {
     private String password;
     private String email;
     private String channel_name;
+    private byte[] channel_banner;
+
+    public byte[] getChannel_banner() {
+        return channel_banner;
+    }
+
+    public void setChannel_banner(byte[] channel_banner) {
+        this.channel_banner = channel_banner;
+    }
+
     private String description;
     private String location;
 
