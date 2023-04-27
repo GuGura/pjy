@@ -4,18 +4,19 @@
     <!-- itembox_n1
         MainD:  카테고리, 유저
         개인페이지: 배너 , 채널소개-->
-    <form id="forminfo" name="form1" method="post" action="/update">
+    <div id="checkPasswd" hidden th:text="${checkPasswd}"></div>
+    <form id="forminfo" name="form1" method="post" action="/update" enctype="multipart/form-data">
     <div class="w-full itembox_n1">
             <!-- 배너 이미지  -->
             <div id="banner" class="d-flex-dr w-full">
-                <img src="/static/image/default/banner.jpg" class="userImg">
+                <img th:src="${session.MyInfo.banner_URL}" class="userImg">
             </div>
             <!-- / -->
             <div class="item1 w-full">
                 <div class="item2" style="width: 98%;padding-bottom: 0;">
                     <!-- 유저 프로필 -->
                     <div class="userI">
-                        <img alt="default" src="/static/image/default/login.png" class="userImg" style="filter: opacity(0.5);">
+                        <img alt="default" th:src="${session.MyInfo.icon_URL}" class="userImg" style="filter: opacity(0.5);">
                     </div>
                     <!-- / -->
                     <!-- 채널 이름, 설명 -->
@@ -23,7 +24,7 @@
                         <input type="text" name="channel_name"
                                style="font-size: 1.5em;margin-bottom:0.5em; border:none;"
                                th:value="${session.MyInfo.channel_name}" th:readonly="${checkPasswd != true}"/>
-                        <div style="color: #606060;" th:text="${#strings.substringBefore(session.MyInfo.description, '&#10;')}"
+                        <div style="color: #606060;" th:text="${#strings.substringBefore((session.MyInfo.description+'&#10;') , '&#10;')}"
                              onclick="showContent('Info');">Info
                         </div>
                     </div>

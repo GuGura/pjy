@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import youtubep.pjy.domain.User;
 import youtubep.pjy.domain.UserForm;
+import youtubep.pjy.service.MyPageService;
 import youtubep.pjy.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -15,10 +16,12 @@ import javax.servlet.http.HttpSession;
 public class UserController {
 
     private UserService userService;
+    private MyPageService myPageService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, MyPageService myPageService) {
         this.userService = userService;
+        this.myPageService = myPageService;
     }
 
     @GetMapping("/login")
@@ -38,10 +41,12 @@ public class UserController {
         user.setPassword(form.getPassword());
         int result = userService.login(user);
         if(result == 1){
-            // 로그인 성공 시 세션에 정보를 담아서 리다이렉트
+            // 로그인 성공 시 세션에 정보를 담아서 포워드
             session.setAttribute("login", true);
+            user = myPageService.goMyPage(form.getUserID());
+            session.setAttribute("MyInfo",user);
             session.setAttribute("userID",form.getUserID());
-            return "main_public";
+            return "redirect:/";
         }else{
             // 로그인 실패 시 모델에 에러 메시지를 담아서 포워드
             model.addAttribute("login","false");

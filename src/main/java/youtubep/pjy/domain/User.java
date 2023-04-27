@@ -8,19 +8,28 @@ public class User {
     private String password;
     private String email;
     private String channel_name;
-    private byte[] channel_banner;
-
-    public byte[] getChannel_banner() {
-        return channel_banner;
-    }
-
-    public void setChannel_banner(byte[] channel_banner) {
-        this.channel_banner = channel_banner;
-    }
-
+    private String icon_URL;
+    private String banner_URL;
     private String description;
     private String location;
+    private Date join_date;
+    private String checkEmail;
 
+    public String getIcon_URL() {
+        return icon_URL;
+    }
+
+    public void setIcon_URL(String icon_URL) {
+        this.icon_URL = icon_URL;
+    }
+
+    public String getBanner_URL() {
+        return banner_URL;
+    }
+
+    public void setBanner_URL(String banner_URL) {
+        this.banner_URL = banner_URL;
+    }
     public String getLocation() {
         return location;
     }
@@ -28,9 +37,6 @@ public class User {
     public void setLocation(String location) {
         this.location = location;
     }
-
-    private Date join_date;
-    private String checkEmail;
 
     public int getUser_UID() {
         return user_UID;

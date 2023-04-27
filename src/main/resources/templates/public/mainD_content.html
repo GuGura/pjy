@@ -1,93 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="kr">
+<style>
+    .wh {
+        width: 370px;
+        height: auto;
+    }
 
+    a {
+        text-decoration: none;
+        color: black;
+    }
+</style>
 <div th:fragment="mainD_content">
-<div class="d-flex-dc" id="content">
-    <!-- itembox_n1
-        MainD:  카테고리, 유저
-        개인페이지: 배너 , 채널소개-->
-    <div class="w-full itembox_n1">
-        <!-- 상단 카테고리 -->
-        <div id="category" class="d-flex-dr w-full">
-            <div><input type="button" value="전체" onclick="category('a')"></div>
-            <div><input type="button" value="인기" onclick="category('p')"></div>
-            <div><input type="button" value="구독" onclick="category('s')"></div>
-        </div>
-        <!-- / -->
-        <!-- 유저 채널 표기칸 -->
-        <div id="itembox_n1_content">
-            <div class="itemss">
-                <div class="itemsss">
-                    <img src="/static/image/user.png" alt="이름" class="userImg"/>
-                </div>
-                <div class="d-flex-dc">
-                    <div>킹재연</div>
-                    <div class="d-flex-dr">
-                        <div style="margin-right:10px">좋아요 : 10명</div>
-                        <div>싫어요 : 5명</div>
-                    </div>
-                </div>
-            </div>
-            <div class="itemss">
-                <div class="itemsss">
-                    <img src="/static/image/user.png" alt="이름" class="userImg"/>
-                </div>
-                <div class="d-flex-dc">
-                    <div>zl존재연</div>
-                    <div class="d-flex-dr">
-                        <div style="margin-right:10px">좋아요 : 10명</div>
-                        <div>싫어요 : 5명</div>
-                    </div>
-                </div>
-            </div>
-            <div class="itemss">
-                <div class="itemsss">
-                    <img src="/static/image/user.png" alt="이름" class="userImg"/>
-                </div>
-                <div class="d-flex-dc">
-                    <div>황재연</div>
-                    <div class="d-flex-dr">
-                        <div style="margin-right:10px">좋아요 : 10명</div>
-                        <div>싫어요 : 5명</div>
-                    </div>
-                </div>
+    <div class="d-flex-dc" id="content">
+        <!-- itembox_n1
+            MainD:  카테고리, 유저
+            개인페이지: 배너 , 채널소개-->
+        <div class="w-full itembox_n1" style="height: 40px;margin-bottom: 15px;">
+            <!-- 상단 카테고리 -->
+            <div id="category" class="d-flex-dr w-full">
+                <div><input type="button" value="전체" onclick="category('a')"></div>
+                <div><input type="button" value="인기" onclick="category('p')"></div>
+                <div><input type="button" value="구독" onclick="category('s')"></div>
             </div>
         </div>
-    </div>
-    <!--  MainD:  유저 소개
-         개인페이지: div 두개 나눠서 위에는 메뉴바 밑에는 content
-     -->
-    <div class="w-full itembox_n2">
-        <div id="itembox_n2_content">
-            <div class="itemss">
-                <div class="itemsss">
-                    <img src="/static/image/user.png" alt="이름" class="userImg"/>
-                </div>
-                <div class="d-flex-dc">
-                    <div>전설의 재연</div>
-                    <div class="d-flex-dr">
-                        <div style="margin-right:10px">좋아요 : 10명</div>
-                        <div>싫어요 : 5명</div>
+        <!--  MainD:  유저 소개
+             개인페이지: div 두개 나눠서 위에는 메뉴바 밑에는 content
+         -->
+        <div style="display:flex;flex:1;width: 100%;">
+            <div style="display: flex;justify-content:flex-start;flex-wrap: wrap;">
+                <div style="display: flex; margin-bottom: 40px;" th:each="video, videoStat : ${session.videos}">
+                    <div th:text="${videoStat.index}" hidden></div>
+                    <!--//-->
+                    <div class="wh" style="display: flex;flex-direction: column;">
+                        <div style="width: 90%; box-shadow: 0 0 5px #E5E5E5;border-radius: 5%;min-height:200px;height: 150px;cursor: pointer;">
+                            <a th:href="${'/videoPage/'+video.video_UID}">
+                                <img style="width:100%;height:100%;filter: opacity(0.5);" alt=""
+                                     th:src="@{${video.video_SumName_URL}+ '?time=' + ${#dates.createNow().getTime()}}"></a>
+                        </div>
+                        <div style="display: flex;flex: 1;">
+                            <div style="display: flex;margin-right: 5px;width: 50px;height: 50px;position: relative;top: 5px;">
+                                <a th:href="${'/videoPage/'+video.video_UID}">
+                                    <img th:src="${video.icon_URL}" alt="채널아이콘"
+                                         style="width: 100%;height: 100%;filter: opacity(0.8);">
+                                </a>
+                            </div>
+                            <div>
+                                <a th:href="${'/videoPage/'+video.video_UID}">
+                                    <div style="display:flex;flex:1;flex-wrap: wrap;width: 90%;align-content: center;cursor: pointer;padding: 5px;line-height: 1.4;word-break: break-all;font-size: larger;"
+                                         th:text="${video.video_Name}">비디오제목
+                                    </div>
+                                    <div style="padding: 0 5px;" th:text="${video.channel_name}">채널이름</div>
+                                </a>
+                                <div style="display: flex;flex: 1;padding: 0 6px;">
+                                    <div style="display: flex;font-size: small;color: #909090;margin-right: 15px;"
+                                         th:text="'조회수: ' + ${video.views}">조회수: 0
+                                    </div>
+                                    <div style="display: flex;font-size: small;color: #909090"
+                                         th:text="${#dates.format(video.video_Join_Date,'yy-MM-dd HH:mm')}">8분 전
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <!--//-->
                 </div>
-            </div>
-            <div class="itemss">
-                <div class="itemsss">
-                    <img src="/static/image/user.png" alt="이름" class="userImg"/>
-                </div>
-                <div class="d-flex-dc">
-                    <div>망해버린 재연</div>
-                    <div class="d-flex-dr">
-                        <div style="margin-right:10px">좋아요 : 10명</div>
-                        <div>싫어요 : 5명</div>
-                    </div>
-                </div>
-            </div>
-            <div class="itemss">
-
             </div>
         </div>
     </div>
-</div>
 </div>
 </html>

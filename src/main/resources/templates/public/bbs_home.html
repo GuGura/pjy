@@ -6,11 +6,11 @@
     }
 
     .textArea1:hover, .textArea2:hover {
-        border-color: #909090;
+        box-shadow: 0 0 4px #909090;
     }
 
     .textArea1, .textArea2 {
-        border: 1px solid #CCCCCC;
+        box-shadow: 0 0 2px #CCCCCC;
         border-radius: 5px;
     }
 
@@ -22,185 +22,138 @@
         overflow-y: auto;
         resize: none;
     }
+
+    .wh {
+        width: 280px;
+        height: auto;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
 </style>
 <div id="HomeContent" style="display: none; flex-direction: column;">
-    <div style="display:flex;flex-direction:column;flex:1; margin-bottom: 5px;">
-        <!--상단 카테고리 / 영상 올리기-->
-        <div style="display: flex;flex: 1;justify-content: space-between;margin-bottom: 10px;">
-                <select id="videoCategory" name="videoCategory" style="border: none;display: flex;">
-                    <option value="recent" selected>최신영상</option>
-                    <option value="mostView">조회수높은영상</option>
-                    <option value="old">오래된영상</option>
-                    <option value="low">조회수낮은영상</option>
-                </select>
-            <div>
-                <input id="upload" style="display: none;"/>
-                <label style="padding: 5px;border: 1px solid black;background: white;font-size:small;" for="upload"
-                       onclick="openFrom();">업로드</label>
-                <div style="display:none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 100; align-items: center; justify-content: center;">
-                    <!----------------------------모달창 -->
-                    <div style="position: relative; width: 960px; min-width: 960px; height: 75%; z-index: 2; background: #fff;border-radius: 10px;">
-                        <!----------------------------헤더 -->
-                        <div style="display:flex; padding: 0 30px;justify-content: space-between;height: 10%;align-items: center;">
-                            <div style="display: flex;font-size: 1.3em;">동영상 업로드</div>
-                            <label for="upload" style="display: flex;height: 50%;cursor: pointer;"
-                                   onclick="closeForm();"><img src="/static/image/close.png" alt="close"></label>
-                        </div>
-                        <div class="w-full"
-                             style="border-bottom:1px solid;border-color: #E5E5E5;margin-bottom: 5px;"></div>
-                        <!----------------------------컨텐츠 -->
-                        <div style="display: flex;flex: 1;font-size: 1.5em;font-weight: bold;padding: 15px 60px;">세부정보
-                        </div>
-                        <div style="display: flex; padding: 0 60px;">
-                            <!----------------------------텍스트박스 -->
-                            <div style="display: flex;flex-direction: column;flex: 2">
-                                <div class="textArea1"
-                                     style="display: flex;flex-direction: column;padding: 5px;margin-bottom: 20px;">
-                                    <label style="padding: 5px 10px;font-size: small;" for="videoName">제목(필수 항목)</label>
- <!--videoName-->
-                                    <textarea id="videoName" name="Video_Name" maxlength="100"
-                                              style="border: none;padding: 0 10px 5px;font-size: medium;min-height:40px;"></textarea>
-                                </div>
-                                <div class="textArea2"
-                                     style="display: flex;flex-direction: column;padding: 5px;margin-bottom: 20px;">
-                                    <label style="padding: 5px 10px;font-size: small;" for="videoContent">설명</label>
-<!--videoContent-->
-                                    <textarea id="videoContent" name="Video_Content"
-                                              style="border: none;padding: 0 10px 5px;font-size: medium;min-height:130px;"></textarea>
-                                </div>
+    <!--헤더(상단 카테고리 / 영상 올리기)-->
+    <div style="display: flex;flex: 1;justify-content: space-between;margin-bottom: 10px;">
+        <select id="videoCategory" name="videoCategory" style="border: none;display: flex;">
+            <option value="recent" selected>최신영상</option>
+            <option value="mostView">조회수높은영상</option>
+            <option value="old">오래된영상</option>
+            <option value="low">조회수낮은영상</option>
+        </select>
+        <div style="padding: 5px;">
+            <input id="upload" style="display: none;"/>
+            <label style="padding: 5px;border: 1px solid black;background: white;font-size:small;" for="upload"
+                   onclick="openFrom();">업로드</label>
+            <div style="display:none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 100; align-items: center; justify-content: center;">
+                <div id="backLoad" style="display:none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 99;background-color: black; filter: opacity(0.8)"></div>
+                <div id="loading"
+                     style="position:fixed; display: none;top: 50%;left: 50%; z-index:101; transform: translate(-50%,-50%);font-size: 40px;">
+                    <lottie-player src="/static/js/Aniki Hamster.json" background="transparent" speed="1"
+                                   style="width: 300px; height: 300px;z-index: 100" loop autoplay></lottie-player>
+                </div>
+                <!----------------------------모달창 -->
+                <div style="position: relative; width: 960px; min-width: 960px; min-height: 75%;box-shadow: 0 0 5px rgb(215, 215, 215); z-index: 2; background: #fff;border-radius: 10px;">
+                    <!----------------------------헤더 -->
+                    <div style="display:flex; padding: 10px 30px;justify-content: space-between;height: 10%;align-items: center;">
+                        <div style="display: flex;font-size: 1.3em;padding: 5px;">동영상 업로드</div>
+                        <label for="upload" style="display: flex;cursor: pointer;" onclick="closeForm();"><img
+                                style="width: 30px;" src="/static/image/close.png" alt="close"></label>
+                    </div>
+                    <div class="w-full"
+                         style="border-bottom:1px solid;border-color: #E5E5E5;margin-bottom: 5px;"></div>
+                    <!----------------------------컨텐츠 -->
+                    <div style="display: flex;flex: 1;font-size: 1.5em;font-weight: bold;padding: 15px 60px;">세부정보
+                    </div>
+                    <div style="display: flex; padding: 0 60px;">
+                        <!----------------------------텍스트박스 -->
+                        <div style="display: flex;flex-direction: column;flex: 2">
+                            <div class="textArea1"
+                                 style="display: flex;flex-direction: column;padding: 5px;margin-bottom: 20px;">
+                                <label style="padding: 5px 10px;font-size: small;" for="videoName">제목(필수 항목)</label>
+                                <!--videoName-->
+                                <textarea id="videoName" name="Video_Name" maxlength="100"
+                                          style="border: none;padding: 0 10px 5px;font-size: medium;min-height:40px;"></textarea>
                             </div>
-                            <!--// -->
-                            <!-- 다운로드 -->
-                            <div style="display: flex;flex: 1;margin-left: 40px;flex-direction: column;align-items: center;align-content: center;flex-wrap: wrap;justify-content: space-evenly;">
-                                    <label for="video" style="height: 150px;width: 150px;background: #F9F9F9;border-radius: 50%;
+                            <div class="textArea2"
+                                 style="display: flex;flex-direction: column;padding: 5px;margin-bottom: 20px;">
+                                <label style="padding: 5px 10px;font-size: small;" for="videoContent">설명</label>
+                                <!--videoContent-->
+                                <textarea id="videoContent" name="Video_Content"
+                                          style="border: none;padding: 0 10px 5px;font-size: medium;min-height:130px;"></textarea>
+                            </div>
+                        </div>
+                        <!--// -->
+                        <!-- 다운로드 -->
+                        <div style="display: flex;flex: 1;margin-left: 40px;flex-direction: column;align-items: center;align-content: center;flex-wrap: wrap;justify-content: space-evenly;">
+                            <label for="video" style="height: 150px;width: 150px;background: #F9F9F9;border-radius: 50%;
                                     display: flex;overflow: hidden;flex-wrap: wrap;align-content: center;cursor: pointer;
                                     justify-content: center;">
-                                        <img src="/static/image/upload.png"
-                                             style="filter: opacity(0.4);width: 50%;height: 50%;">
-                                    </label>
-<!--video-->
-                                    <input id="video" type="file" name="Video_Name" style="display: none;" accept="video/*">
-                                <div id="fileName" style="display: flex;">
-                                    파일을 선택해주세요
-                                </div>
+                                <img src="/static/image/upload.png"
+                                     style="filter: opacity(0.4);width: 50%;height: 50%;">
+                            </label>
+                            <!--video-->
+                            <input id="video" type="file" name="Video_Name" style="display: none;" accept="video/*">
+                            <div id="fileName" style="display: flex;">
+                                파일을 선택해주세요
                             </div>
                         </div>
-                        <div style="display: flex;flex: 1;font-size: 1.1em;padding: 15px 60px 10px;">미리보기 이미지</div>
-                        <div style="display: flex;flex: 1;padding: 0 55px;font-size: small;margin-bottom: 40px;">
-                            <label style="margin-right: 10px;">
-                                <input type="radio" name="sumName" value="choose">
-                                선택
-                            </label>
-<!--sumNameImg-->
-                            <label id="SumNameImg" style="display: none">
-                                <input type="file" id="SumNImg" name="sumNameImg" value="업로드" accept="image/*">
-                            </label>
-                        </div>
-                        <div class="w-full"
-                             style="border-bottom:1px solid;border-color: #E5E5E5;margin-bottom: 5px;"></div>
-<!--btnSave-->
-                        <div style="display: flex;flex: 1;justify-content: flex-end;padding: 5px 10px;">
-                            <button type="button" id="btnSave">확인</button>
-                        </div>
                     </div>
-<!--//-->
-                    <label style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 1;background: rgba(0,0,0,.6)"
-                           for="upload" onclick="closeForm();"></label>
+                    <div style="display: flex;flex: 1;font-size: 1.1em;padding: 15px 60px 10px;">미리보기 이미지</div>
+                    <div style="display: flex;flex: 1;padding: 0 55px;font-size: small;margin-bottom: 40px;">
+                        <label style="margin-right: 10px;">
+                            <input type="radio" name="sumName" value="choose" checked>
+                            선택
+                        </label>
+                        <!--sumNameImg-->
+                        <label id="SumNameImg">
+                            <input type="file" id="SumNImg" name="sumNameImg" value="업로드" accept="image/*">
+                        </label>
+                    </div>
+                    <div class="w-full"
+                         style="border-bottom:1px solid;border-color: #E5E5E5;margin-bottom: 5px;"></div>
+                    <!--btnSave-->
+                    <div style="display: flex;flex: 1;justify-content: flex-end;padding: 5px 10px;">
+                        <button type="button" id="btnSave">확인</button>
+                    </div>
                 </div>
+                <!--/btnSave-->
+                <label style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 1;background: rgba(0,0,0,.6)"
+                       for="upload" onclick="closeForm();"></label>
             </div>
         </div>
-        <div style="display:flex;">
-            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
-                <div style="width:100px;height:100px;">
-                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
+        <!--/모달창-->
+    </div>
+    <!--/헤더-->
+    <div id="" style="display:flex;flex-direction:row;flex:1;flex-wrap: wrap">
+        <div style="display: flex; margin-bottom: 40px;" th:each="video, videoStat : ${session.videos}">
+            <div th:text="${videoStat.index}" hidden></div>
+            <!--//-->
+            <div class="wh" style="display: flex;flex-direction: column;">
+                <div style="width: 85%;min-height:150px;height: 150px;cursor: pointer;box-shadow: 0 0 5px #E5E5E5;border-radius: 5%;">
+                    <a th:href="${'/videoPage/'+video.video_UID}">
+                        <img style="width:100%;height:100%;filter: opacity(0.5);" alt=""
+                             th:src="@{${video.video_SumName_URL}+ '?time=' + ${#dates.createNow().getTime()}}"></a>
                 </div>
-                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">유니티 전망</div>
-            </div>
+                <a th:href="${'/videoPage?video_UID'+video.video_UID}">
+                    <div style="display:flex;flex:1;flex-wrap: wrap;width: 90%;align-content: center;cursor: pointer;padding: 5px 0;line-height: 1.4;word-break: break-all;"
+                         th:text="${video.video_Name}">
+                    </div>
+                </a>
 
-            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
-                <div style="width:100px;height:100px;">
-                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
+                <div style="display: flex;flex: 1;">
+                    <div style="display: flex;font-size: small;color: #909090;margin-right: 15px;"
+                         th:text="${video.views}">조회수: 0
+                    </div>
+                    <div style="display: flex;font-size: small;color: #909090"
+                         th:text="${#dates.format(video.video_Join_Date,'yy-MM-dd HH:mm')}">8분 전
+                    </div>
                 </div>
-                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">게임스탑 전망</div>
             </div>
-
-            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
-                <div style="width:100px;height:100px;">
-                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
-                </div>
-                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">지니 전망</div>
-            </div>
-
-            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
-                <div style="width:100px;height:100px;">
-                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
-                </div>
-                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">예야 전망</div>
-            </div>
-
-            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
-                <div style="width:100px;height:100px;">
-                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
-                </div>
-                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">AMC 전망</div>
-            </div>
-
-            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
-                <div style="width:100px;height:100px;">
-                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
-                </div>
-                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">컴플 전망</div>
-            </div>
+            <!--//-->
         </div>
     </div>
 
-    <div class="w-full" style="border-bottom:1px solid;border-color: #E5E5E5;margin-bottom: 5px;"></div>
-
-    <div style="display:flex;flex-direction:column;flex:1">
-        <div style="padding:15px 5px;margin-left:10px;">추천 게시글</div>
-        <div style="display:flex;">
-            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
-                <div style="width:100px;height:100px;">
-                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
-                </div>
-                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">유니티 전망</div>
-            </div>
-
-            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
-                <div style="width:100px;height:100px;">
-                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
-                </div>
-                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">게임스탑 전망</div>
-            </div>
-
-            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
-                <div style="width:100px;height:100px;">
-                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
-                </div>
-                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">지니 전망</div>
-            </div>
-
-            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
-                <div style="width:100px;height:100px;">
-                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
-                </div>
-                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">예야 전망</div>
-            </div>
-
-            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
-                <div style="width:100px;height:100px;">
-                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
-                </div>
-                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">AMC 전망</div>
-            </div>
-
-            <div class="d-flex-dc" style="width:200px;height:130px;cursor: pointer;">
-                <div style="width:100px;height:100px;">
-                    <img style="width:100%;height:100%;filter: opacity(0.5);" src="/static/image/login.png">
-                </div>
-                <div style="display:flex;flex:1;flex-wrap: wrap;align-content: center;">컴플 전망</div>
-            </div>
-        </div>
-    </div>
 </div>
 </html>

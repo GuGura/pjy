@@ -2,6 +2,15 @@ $(function () {
     $('.menubar').click(function () {
         var id = $(this).text();
         console.log(id);
+        var checkPasswd = $('#checkPasswd').text();
+        if(checkPasswd == 'true' && id != 'Info'){
+            if(confirm("페이지 이동 시 변경사항이 저장됩니다.")){
+                document.form1.action="/update"
+                document.form1.submit();
+            }else{
+                id = 'Info';
+            }
+        }
         showContent(id);
     });
     // textarea 요소를 참조합니다.
@@ -31,7 +40,7 @@ $(function () {
             var isFocusIn = event.type === 'focus';
             $('.textArea1').css({
                 'color': isFocusIn ? '#065FD4' : '#212121',
-                'border': isFocusIn ? '1px solid #065FD4' : '1px solid #CCCCCC'
+                'box-shadow': isFocusIn ? '0 0 4px #065FD4' : '0 0 4px #CCCCCC'
             });
         });
     $('.textArea2 > label + textarea')
@@ -39,7 +48,7 @@ $(function () {
             var isFocusIn = event.type === 'focus';
             $('.textArea2').css({
                 'color': isFocusIn ? '#065FD4' : '#212121',
-                'border': isFocusIn ? '1px solid #065FD4' : '1px solid #CCCCCC'
+                'box-shadow': isFocusIn ? '0 0 4px #065FD4' : '0 0 4px #CCCCCC'
             });
         });
     $('#video').change(function() {
@@ -50,15 +59,8 @@ $(function () {
         $('#fileName').text(names.join(', '));
     });
 
-    $('input[type="radio"][name="sumName"]').on('change', function() {
-        if ($(this).val() === 'choose') {
-            $('#SumNameImg > input[type="file"]').val("").empty();
-            $('#SumNameImg').css('display', 'flex');
-        } else {
-            $('#SumNameImg').css('display', 'none');
-        }
-    });
-    $("#btnSave").click(function() {
+
+    $("#btnSave").click(function(e) {
         if ($('#videoName').val()==""){
             alert("제목을 입력하세요");
         }else if($('#videoContent').val()==""){
@@ -66,6 +68,7 @@ $(function () {
         }else if($('#video').val() == ""){
             alert("동영상을 업로드하세요");
         }else{
+            e.preventDefault();
             insert();
         }
     });
@@ -87,6 +90,9 @@ function openFrom() {
     if (Form.css('display') == 'none') {
         Form.css('display', 'flex');
     }
+    $('#video').val("").empty();
+    $('#SumNameImg > input[type="file"]').val("").empty();
+    $('#fileName').text("파일을 입력해주세요");
     $('.textArea1 > label + textarea').val("");
     $('.textArea2 > label + textarea').val("");
 }
@@ -98,6 +104,8 @@ function closeForm() {
     }
 }
 function insert(){
+    $("#loading").show(); // 로딩 표시 표시
+    $("#backLoad").show();
     var formData = new FormData();
     var videoName = $('#videoName').val();
     var videoContent = $('#videoContent').val();
@@ -109,21 +117,26 @@ function insert(){
     formData.append('SumNImg',SumNImg);
     formData.append('videoName',videoName);
     formData.append('videoContent',videoContent);
+
     $.ajax({
-        type: "POST",
+        type: "Post",
         url : "/uploadVideo",
         data : formData,
         processData: false,
         contentType: false,
-        success : function(){
-          //  list(); //회원목록 갱신
+        success : function(result){
+            $("#loading").hide(); // 로딩 표시 표시
+            $("#backLoad").hide();
             $('#videoName').val("");
             $('#videoContent').val("");
             $('#video').val("").empty();
             $('#SumNImg').val("").empty();
             $("input[id='upload'] + label + div").css('display', 'none');
+            window.location.href = "/videoPage";
         },
         error : function (){
+            $("#loading").hide(); // 로딩 표시 표시
+            $("#backLoad").hide();
             console.log("insert 실패");
         }
     });
