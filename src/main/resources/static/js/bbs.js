@@ -1,4 +1,5 @@
 $(function () {
+
     $('.menubar').click(function () {
         var id = $(this).text();
         console.log(id);
@@ -96,6 +97,16 @@ function openFrom() {
     $('.textArea1 > label + textarea').val("");
     $('.textArea2 > label + textarea').val("");
 }
+function deleteVideo(event) {
+    var deleteVideo = $(event.currentTarget).find('#deleteVideo').css('display');
+    if (deleteVideo == 'flex') {
+        $(event.currentTarget).css('background', 'white');
+        $(event.currentTarget).find('#deleteVideo').css('display', 'none');
+    } else if (deleteVideo == 'none') {
+        $(event.currentTarget).css('background', '#CECECE');
+        $(event.currentTarget).find('#deleteVideo').css('display', 'flex');
+    }
+}
 
 function closeForm() {
     var Form = $("input[id='upload'] + label + div");
@@ -103,6 +114,36 @@ function closeForm() {
         Form.css('display', 'none');
     }
 }
+function deleteR(a){
+    console.log('video_UID:' + a);
+    if (confirm('삭제하시겠습니까?')){
+        var video_UID = a;
+        const formData = new FormData();
+        formData.append("video_UID", video_UID);
+        $("#loading").show(); // 로딩 표시 표시
+        $("#backLoad").show();
+        $.ajax({
+            contentType: false, // 추가
+            processData: false, // 추가
+            data : formData,
+            method : 'post',
+            url: '/deleteVideo',
+            success : function (){
+                $("#loading").hide(); // 로딩 표시 표시
+                $("#backLoad").hide();
+                window.location.href = "/MyPage";
+            },
+            error :function (result){
+                console.log(result)
+                $("#loading").hide(); // 로딩 표시 표시
+                $("#backLoad").hide();
+                alert("삭제 실패");
+
+            }
+        })
+    }
+}
+
 function insert(){
     $("#loading").show(); // 로딩 표시 표시
     $("#backLoad").show();
@@ -140,4 +181,5 @@ function insert(){
             console.log("insert 실패");
         }
     });
+
 }

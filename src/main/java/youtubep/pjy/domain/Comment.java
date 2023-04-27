@@ -10,14 +10,14 @@ public class Comment {
     private Date Comment_Join_Date;
     private int Comment_Like;
 
-    private String UserIcon;
+    private String icon_URL; //Users테이브에서 조인 예정
 
-    public String getUserIcon() {
-        return UserIcon;
+    public String getIcon_URL() {
+        return icon_URL;
     }
 
-    public void setUserIcon(String userIcon) {
-        UserIcon = userIcon;
+    public void setIcon_URL(String icon_URL) {
+        this.icon_URL = icon_URL;
     }
 
     public int getComment_UID() {

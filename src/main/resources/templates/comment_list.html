@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div style="display: flex;margin-bottom: 70px;padding: 10px 0;flex-direction: column;"
+     id="videoComment">
+    <!-- 댓글 작성 및 정렬-->
+    <div style="display:flex;height: 30px; flex-wrap: wrap;align-content: center;">
+        <div style="display: flex;margin-right: 20px;"
+             th:text="${'댓글 '+session.comments.size()+'개'}">댓글 100개
+        </div>
+        <div style="display: flex;position:relative;">
+            <div id="showComment" style="display: flex;flex: 1;cursor: pointer;border-radius: 5%;"
+                 onclick="commentBar();">
+                <div style="display: flex;width: 25px;height: 25px;">
+                    <img id="commentBar" src="/static/image/commentBarA.png"
+                         style="width: 100%;height: 100%;">
+                </div>
+                <!-- 라벨은 그냥 나두면 상위 태그에 onclick이 있을 때 해당 onclick을 두번클릭하게 만든다. 고로 onclick="event.stopPropagation();" 써서 막아줘야한다.-->
+                <label for="bar" onclick="event.stopPropagation();"
+                       style="margin-left: 10px;display:flex;flex-wrap: wrap;align-content: center;cursor: pointer;">정렬기준</label>
+                <input type="checkbox" id="bar" style="display: none">
+            </div>
+            <!--댓글 정렬-->
+            <div id="howViewComment"
+                 style="z-index: 1000;background: #fff;position: absolute;top: 35px;display: none;flex-direction: column;line-height: 1.5;box-shadow: 0 0 5px #D7D7D7;width: 120px;height: 110px;border-radius: 5px;justify-content: center;">
+                <label for="popular" class="howViewComment"
+                       style="display: flex;width: 100%;cursor: pointer;height: 45%;align-items: center;padding: 0 0 0 20px;">인기
+                    댓글순</label>
+                <input id="popular" type="radio" style="display: none" checked>
+                <label for="recent" class="howViewComment"
+                       style="width: 100%;display: flex;cursor: pointer;height: 45%;align-items: center;padding: 0 20px;">최신순</label>
+                <input id="recent" type="radio" style="display: none">
+            </div>
+            <!--//댓글 정렬-->
+        </div>
+    </div>
+    <!-- 댓글 작성 및 정렬-->
+    <div style="display: flex;">
+        <div style="display: flex;width: 40px;height: 40px;margin-right: 15px;margin-top: 10px;">
+            <img src="/static/image/login.png" th:if="${session.userID == null}"
+                 style="width: 100%; height: 100%;filter: opacity(0.5);">
+            <img th:src="${session.MyInfo.icon_URL}" th:if="${session.userID != null}"
+                 style="width: 100%; height: 100%">
+        </div>
+        <div style="display:flex;align-items: flex-end;flex: 1;flex-direction: column;">
+            <div style="display:flex;width: 100%;flex: 1;padding: 15px 0 0; margin-bottom: 10px;">
+                <textarea th:if="${session.userID != null}" class="comment_Description" name="comment_Description"
+                          placeholder="댓글 추가.."
+                          style="display: flex;flex: 1;line-height:1.5;border-top: none;border-right: none;border-left: none;outline: none;border-bottom: 1px solid;height: 27px;overflow-y: hidden;resize: none;"></textarea>
+                <textarea th:if="${session.userID == null}" onclick="goLogin();" class="comment_Description"
+                          name="comment_Description" placeholder="댓글 추가.."
+                          style="display: flex;flex: 1;line-height:1.5;border-top: none;border-right: none;border-left: none;outline: none;border-bottom: 1px solid;height: 27px;overflow-y: hidden;resize: none;"></textarea>
+            </div>
+            <div style="display:flex;" th:if="${session.userID != null}">
+                <input style="display:flex;" type="button" value="취소"
+                       onclick="textReset('.comment_Description');">
+                <input style="display:flex;margin-left: 10px;" name="updateBtn" type="button"
+                       value="댓글" onclick="updateText('.comment_Description');">
+            </div>
+        </div>
+    </div>
+    <!-- 댓글 리스트-->
+    <div id="comment-list" style="display: flex;flex: 1; flex-direction: column;">
+        <div style="display: flex;" th:each="comment, commentStat : ${session.comments}">
+            <div th:text="${commentStat.index}" hidden></div>
+            <!--유저아이콘-->
+            <div style="display: flex;width: 40px;height: 40px;margin-right: 10px;margin-top: 10px;">
+                <img th:src="${comment.icon_URL}"
+                     style="width: 100%; height: 100%;filter: opacity(0.5);">
+            </div>
+            <div style="display:flex;align-items: flex-end;flex: 1;flex-direction: column;">
+                <div style="display:flex;width: 100%;flex: 1;padding: 9px 0 0;flex-direction: column">
+                    <div style="display: flex;align-items: flex-end;margin-bottom: 3px;">
+                        <div style="display: flex;font-size: 0.8em;margin-right: 10px;"
+                             th:text="${comment.comment_UserID}">박재연
+                        </div>
+                        <div style="display: flex;font-size: 0.8em;"
+                             th:text="${#dates.format(comment.comment_Join_Date,'yyyy.MM.dd HH:mm')}">
+                            2021-04-27 12:40:22
+                        </div>
+                    </div>
+                    <div style="display: flex;justify-content: space-between;align-items: flex-start;">
+                                            <textarea class="comment_List" name="comment_List"
+                                                      style="display: flex; line-height: 1.5; border: none; outline: none;flex: 1;height: 27px; overflow-y: hidden; resize: none;"
+                                                      readonly="">[[${comment.Comment_Description.replaceAll('^\\s+', '')}]]</textarea>
+                        <!--내 댓글일 경우 토글창-->
+                        <div id="MyCommentToggle"
+                             style="display: flex;width: 20px;height: 20px;cursor: pointer;position: relative;"
+                             onclick="MyCommentToggle();"
+                             th:if="${comment.comment_UserID == session.userID}">
+                            <img src="/static/image/login.png" alt=""
+                                 style="width: 100%;height: 100%;display: flex">
+                            <div id="MyComment"
+                                 style="z-index: 1000;background: rgb(255, 255, 255);position: absolute;top: 20px;display: none;flex-direction: column;line-height: 1.5;box-shadow: rgb(215, 215, 215) 0px 0px 5px;width: 70px;height: 70px;border-radius: 5px;justify-content: center;">
+                                <label for="updateMyComment" class="howViewComment" onclick="event.stopPropagation();"
+                                       style="display: flex;width: 100%;cursor: pointer;height: 45%;align-items: center;padding: 0 0 0 20px;font-size: 0.8em;">수정</label>
+                                <input id="updateMyComment" type="radio" style="display: none">
+                                <label for="deleteMyComment" class="howViewComment" onclick="event.stopPropagation();"
+                                       style="width: 100%;display: flex;cursor: pointer;height: 45%;align-items: center;padding: 0 20px;font-size: 0.8em;">삭제</label>
+                                <input id="deleteMyComment" type="radio" style="display: none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

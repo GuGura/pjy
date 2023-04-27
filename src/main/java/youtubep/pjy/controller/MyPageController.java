@@ -11,6 +11,7 @@ import youtubep.pjy.domain.UserForm;
 import youtubep.pjy.domain.Video;
 import youtubep.pjy.service.CommentService;
 import youtubep.pjy.service.MyPageService;
+import youtubep.pjy.service.VideoUploadService;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -27,11 +28,13 @@ public class MyPageController {
 
     private final MyPageService myPageService;
     private final CommentService commentService;
+    private final VideoUploadService videoUploadService;
 
     @Autowired
-    public MyPageController(MyPageService myPageService, CommentService commentService) {
+    public MyPageController(MyPageService myPageService, CommentService commentService, VideoUploadService videoUploadService) {
         this.myPageService = myPageService;
         this.commentService = commentService;
+        this.videoUploadService = videoUploadService;
     }
 
     @GetMapping("/MyPage")
@@ -113,10 +116,20 @@ public class MyPageController {
         session.setAttribute("thisVideo",thisVideo);
         return "/videoPage";
     }
+
     @GetMapping("/videoPage")
     public String VideoPage(){
         return "videoPage";
     }
+
+
+    @PostMapping("/deleteVideo")
+    public String deleteVideo(@RequestParam("video_UID") int video_UID){
+        System.out.println(video_UID);
+        videoUploadService.deleteVideo(video_UID);
+        return "redirect:/MyPage";
+    }
+
     @GetMapping("favicon.ico")
     @ResponseBody
     public void returnNoFavicon() {

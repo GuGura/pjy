@@ -18,9 +18,15 @@ public class CommentService {
     }
 
     public void updateComment(Comment comment){
-
+        commentMapper.save(comment);
     }
     public List<Comment> findAll(int video_UID){
-        return commentMapper.findAll(video_UID);
+        List<Comment> comments = commentMapper.findAll(video_UID);
+        for (int i = 0; i < comments.size(); i++) {
+            String userID = comments.get(i).getComment_UserID();
+            String Icon_URL = commentMapper.findIcon_URL(userID);
+            comments.get(i).setIcon_URL(Icon_URL);
+        }
+        return comments;
     }
 }

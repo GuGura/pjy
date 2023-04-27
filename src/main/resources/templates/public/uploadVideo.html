@@ -21,9 +21,18 @@
     .howViewComment:active {
         background: #CBCBCB;
     }
+    #MyVideoToggle:hover{
+        background: #E5E5E5;
+    }
+
+    #MyVideoToggle{
+        background: #F2F2F2;
+    }
+
 
 </style>
 <div th:fragment="uploadVideo" style="display: flex;flex: 1;">
+    <div id="video_UID" hidden th:text="${session.thisVideo.video_UID}"></div>
     <div class="d-flex-dc" id="content">
         <!-- itembox_n1
             MainD:  카테고리, 유저
@@ -39,18 +48,30 @@
                     <div style="display: flex;flex-direction: column;" id="videoInfo">
                         <div style="display: flex;flex: 1;font-weight: 600;font-size: x-large;"
                              th:text="${session.thisVideo.video_Name}"></div>
-                        <div style="display: flex;flex: 1;margin-bottom: 10px;">
-                            <div style="display: flex;height: 55px;padding: 5px;position: relative;left: -5px;">
-                                <img th:src="${session.thisVideo.icon_URL}" alt="">
-                            </div>
-                            <div style="display: flex;flex-direction: column;">
-                                <div style="display: flex;padding: 5px;font-weight: 600;"
-                                     th:text="${session.thisVideo.channel_name}"></div>
-                                <div style="display: flex;padding: 0 5px;">
-                                    <div style="display: flex;margin-right: 10px;"
-                                         th:text="'좋아요: '+${session.thisVideo.video_Like}"></div>
+                        <div style="display: flex;flex: 1;margin-bottom: 10px;justify-content: space-between;align-items: flex-end;">
+                            <div style="display: flex;">
+                                <div style="display: flex;height: 55px;padding: 5px;position: relative;left: -5px;">
+                                    <img th:src="${session.thisVideo.icon_URL}" alt="">
+                                </div>
+                                <div style="display: flex;flex-direction: column;">
+                                    <div style="display: flex;padding: 5px;font-weight: 600;"
+                                         th:text="${session.thisVideo.channel_name}"></div>
+                                    <div style="display: flex;padding: 0 5px;">
+                                        <div style="display: flex;margin-right: 10px;"
+                                             th:text="'좋아요: '+${session.thisVideo.video_Like}"></div>
+                                    </div>
                                 </div>
                             </div>
+                            <div id="MyVideoToggle" onclick="MyVideoToggle();" style="position:relative;display: flex;align-items: center;width: 25px;cursor:pointer;height: 25px;border-radius: 50%;justify-content: center;" th:if="${session.userID == session.thisVideo.upload_User}">
+                                <img src="/static/image/more.png" style="width: 70%;height: 70%;display: flex;" alt="">
+                                <div id="myPageBtn"
+                                     style="z-index: 1000; background: rgb(255, 255, 255); position: absolute; top: 0px; left: 30px; display: none; flex-direction: column; line-height: 1.5; box-shadow: rgb(215, 215, 215) 0px 0px 5px; width: 50px; height: 30px; border-radius: 5px; justify-content: center;">
+                                    <label for="myPage" class="howViewComment" th:onclick="myPage([[${session.thisVideo.video_UID}]]);"
+                                           style="display: flex;width: 100%;cursor: pointer;height: 80%;align-items: center;font-size: 0.8em;justify-content: center;">삭제</label>
+                                    <input id="myPage" type="button" style="display: none">
+                                </div>
+                            </div>
+
                         </div>
                         <div style="display: flex;flex-direction: column;background: #F2F2F2;box-shadow: 0 0 2px rgb(215, 215, 215);min-height: 100px;border-radius: 10px;padding: 5px 10px;">
                             <div style="display: flex;height: 30px;flex-wrap: wrap;align-content: center;">
@@ -69,10 +90,13 @@
                             </div>
                         </div>
                     </div>
-                    <div style="display: flex;height: 200px;padding: 10px 0;flex-direction: column;" id="videoComment">
+                    <div style="display: flex;margin-bottom: 70px;padding: 10px 0;flex-direction: column;"
+                         id="videoComment">
                         <!-- 댓글 작성 및 정렬-->
                         <div style="display:flex;height: 30px; flex-wrap: wrap;align-content: center;">
-                            <div style="display: flex;margin-right: 20px;">댓글 100개</div>
+                            <div style="display: flex;margin-right: 20px;"
+                                 th:text="${'댓글 '+session.comments.size()+'개'}">댓글 100개
+                            </div>
                             <div style="display: flex;position:relative;">
                                 <div id="showComment" style="display: flex;flex: 1;cursor: pointer;border-radius: 5%;"
                                      onclick="commentBar();">
@@ -109,13 +133,8 @@
                             </div>
                             <div style="display:flex;align-items: flex-end;flex: 1;flex-direction: column;">
                                 <div style="display:flex;width: 100%;flex: 1;padding: 15px 0 0; margin-bottom: 10px;">
-                                    <textarea th:if="${session.userID != null}" class="comment_Description"
-                                              name="comment_Description" placeholder="댓글 추가.."
-                                              style="display: flex;flex: 1;line-height:1.5;border-top: none;border-right: none;border-left: none;outline: none;border-bottom: 1px solid;height: 27px;overflow-y: hidden;resize: none;"></textarea>
-                                    <textarea th:if="${session.userID == null}" onclick="goLogin();"
-                                              class="comment_Description" name="comment_Description"
-                                              placeholder="댓글 추가.."
-                                              style="display: flex;flex: 1;line-height:1.5;border-top: none;border-right: none;border-left: none;outline: none;border-bottom: 1px solid;height: 27px;overflow-y: hidden;resize: none;"></textarea>
+                                    <textarea th:if="${session.userID != null}" class="comment_Description" name="comment_Description" placeholder="댓글 추가.." style="display: flex;flex: 1;line-height:1.5;border-top: none;border-right: none;border-left: none;outline: none;border-bottom: 1px solid;height: 27px;overflow-y: hidden;resize: none;"></textarea>
+                                    <textarea th:if="${session.userID == null}" onclick="goLogin();" class="comment_Description" name="comment_Description" placeholder="댓글 추가.." style="display: flex;flex: 1;line-height:1.5;border-top: none;border-right: none;border-left: none;outline: none;border-bottom: 1px solid;height: 27px;overflow-y: hidden;resize: none;"></textarea>
                                 </div>
                                 <div style="display:flex;" th:if="${session.userID != null}">
                                     <input style="display:flex;" type="button" value="취소"
@@ -130,25 +149,42 @@
                         <div style="display: flex;flex: 1; flex-direction: column;">
                             <div style="display: flex;" th:each="comment, commentStat : ${session.comments}">
                                 <div th:text="${commentStat.index}" hidden></div>
-                            <!--유저아이콘-->
+                                <!--유저아이콘-->
                                 <div style="display: flex;width: 40px;height: 40px;margin-right: 10px;margin-top: 10px;">
-                                    <img src="/static/image/login.png"
+                                    <img th:src="${comment.icon_URL}"
                                          style="width: 100%; height: 100%;filter: opacity(0.5);">
                                 </div>
                                 <div style="display:flex;align-items: flex-end;flex: 1;flex-direction: column;">
-                                    <div style="display:flex;width: 100%;flex: 1;padding: 9px 0 0;margin-bottom: 10px;flex-direction: column">
+                                    <div style="display:flex;width: 100%;flex: 1;padding: 9px 0 0;flex-direction: column">
                                         <div style="display: flex;align-items: flex-end;margin-bottom: 3px;">
-                                            <div style="display: flex;font-size: 0.8em;margin-right: 10px;" th:text="${comment.comment_UserID}">박재연
+                                            <div style="display: flex;font-size: 0.8em;margin-right: 10px;"
+                                                 th:text="${comment.comment_UserID}">박재연
                                             </div>
-                                            <div style="display: flex;font-size: 0.8em;" th:text="${#dates.format(comment.comment_Join_Date,'yyyy.MM.dd HH:mm')}">2021-04-27 12:40:22</div>
+                                            <div style="display: flex;font-size: 0.8em;"
+                                                 th:text="${#dates.format(comment.comment_Join_Date,'yyyy.MM.dd HH:mm')}">
+                                                2021-04-27 12:40:22
+                                            </div>
                                         </div>
                                         <div style="display: flex;justify-content: space-between;align-items: flex-start;">
-                                        <textarea class="comment_Description" name="comment_Description"
-                                                  style="display: flex; line-height: 1.5; border: none; outline: none;flex: 1;height: 64px; overflow-y: hidden; resize: none;"
-                                                  readonly="">[[${comment.Comment_Description.replaceAll('^\\s+', '')}]]</textarea>
-                                            <div style="display: flex; width: 20px;height: 20px;">
+                                            <textarea class="comment_List" name="comment_List"
+                                                      style="display: flex; line-height: 1.5; border: none; outline: none;flex: 1;height: 27px; overflow-y: hidden; resize: none;"
+                                                      readonly="">[[${comment.Comment_Description.replaceAll('^\\s+', '')}]]</textarea>
+                                            <!--내 댓글일 경우 토글창-->
+                                            <div id="MyCommentToggle"
+                                                 style="display: flex;width: 20px;height: 20px;cursor: pointer;position: relative;"
+                                                 onclick="MyCommentToggle();"
+                                                 th:if="${comment.comment_UserID == session.userID}">
                                                 <img src="/static/image/login.png" alt=""
                                                      style="width: 100%;height: 100%;display: flex">
+                                                <div id="MyComment"
+                                                     style="z-index: 1000;background: rgb(255, 255, 255);position: absolute;top: 20px;display: none;flex-direction: column;line-height: 1.5;box-shadow: rgb(215, 215, 215) 0px 0px 5px;width: 70px;height: 70px;border-radius: 5px;justify-content: center;">
+                                                    <label for="updateMyComment" class="howViewComment" onclick="event.stopPropagation();"
+                                                           style="display: flex;width: 100%;cursor: pointer;height: 45%;align-items: center;padding: 0 0 0 20px;font-size: 0.8em;">수정</label>
+                                                    <input id="updateMyComment" type="radio" style="display: none">
+                                                    <label for="deleteMyComment" class="howViewComment" onclick="event.stopPropagation();"
+                                                    style="width: 100%;display: flex;cursor: pointer;height: 45%;align-items: center;padding: 0 20px;font-size: 0.8em;">삭제</label>
+                                                    <input id="deleteMyComment" type="radio" style="display: none">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
