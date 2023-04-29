@@ -4,11 +4,11 @@ $(function () {
         var id = $(this).text();
         console.log(id);
         var checkPasswd = $('#checkPasswd').text();
-        if(checkPasswd == 'true' && id != 'Info'){
-            if(confirm("페이지 이동 시 변경사항이 저장됩니다.")){
-                document.form1.action="/update"
+        if (checkPasswd == 'true' && id != 'Info') {
+            if (confirm("페이지 이동 시 변경사항이 저장됩니다.")) {
+                document.form1.action = "/update"
                 document.form1.submit();
-            }else{
+            } else {
                 id = 'Info';
             }
         }
@@ -52,7 +52,7 @@ $(function () {
                 'box-shadow': isFocusIn ? '0 0 4px #065FD4' : '0 0 4px #CCCCCC'
             });
         });
-    $('#video').change(function() {
+    $('#video').change(function () {
         var names = [];
         for (var i = 0; i < $(this)[0].files.length; i++) {
             names.push($(this)[0].files[i].name);
@@ -61,14 +61,14 @@ $(function () {
     });
 
 
-    $("#btnSave").click(function(e) {
-        if ($('#videoName').val()==""){
+    $("#btnSave").click(function (e) {
+        if ($('#videoName').val() == "") {
             alert("제목을 입력하세요");
-        }else if($('#videoContent').val()==""){
+        } else if ($('#videoContent').val() == "") {
             alert("내용을 입력하세요");
-        }else if($('#video').val() == ""){
+        } else if ($('#video').val() == "") {
             alert("동영상을 업로드하세요");
-        }else{
+        } else {
             e.preventDefault();
             insert();
         }
@@ -85,6 +85,7 @@ function showContent(id) {
 function changeInfo() {
     location.href = "/bbsUpdate";
 }
+
 //모달창
 function openFrom() {
     var Form = $("input[id='upload'] + label + div");
@@ -97,6 +98,7 @@ function openFrom() {
     $('.textArea1 > label + textarea').val("");
     $('.textArea2 > label + textarea').val("");
 }
+
 function deleteVideo(event) {
     var deleteVideo = $(event.currentTarget).find('#deleteVideo').css('display');
     if (deleteVideo == 'flex') {
@@ -114,37 +116,39 @@ function closeForm() {
         Form.css('display', 'none');
     }
 }
-function deleteR(a){
+
+function deleteR(a) {
     console.log('video_UID:' + a);
-    if (confirm('삭제하시겠습니까?')){
+    if (confirm('삭제하시겠습니까?')) {
         var video_UID = a;
         const formData = new FormData();
         formData.append("video_UID", video_UID);
         $("#loading").show(); // 로딩 표시 표시
         $("#backLoad").show();
-        $.ajax({
-            contentType: false, // 추가
-            processData: false, // 추가
-            data : formData,
-            method : 'post',
-            url: '/deleteVideo',
-            success : function (){
-                $("#loading").hide(); // 로딩 표시 표시
-                $("#backLoad").hide();
-                window.location.href = "/MyPage";
-            },
-            error :function (result){
-                console.log(result)
-                $("#loading").hide(); // 로딩 표시 표시
-                $("#backLoad").hide();
-                alert("삭제 실패");
-
-            }
-        })
+        setTimeout(function () {
+            $.ajax({
+                contentType: false, // 추가
+                processData: false, // 추가
+                data: formData,
+                method: 'post',
+                url: '/deleteVideo',
+                success: function () {
+                    $("#loading").hide(); // 로딩 표시 표시
+                    $("#backLoad").hide();
+                    window.location.href = "/MyPage";
+                },
+                error: function (result) {
+                    console.log(result)
+                    $("#loading").hide(); // 로딩 표시 표시
+                    $("#backLoad").hide();
+                    alert("삭제 실패");
+                }
+            })
+        }, 2000);
     }
 }
 
-function insert(){
+function insert() {
     $("#loading").show(); // 로딩 표시 표시
     $("#backLoad").show();
     var formData = new FormData();
@@ -154,18 +158,18 @@ function insert(){
     var SumNImg = $('#SumNImg')[0].files[0];
 
 
-    formData.append('video',video);
-    formData.append('SumNImg',SumNImg);
-    formData.append('videoName',videoName);
-    formData.append('videoContent',videoContent);
+    formData.append('video', video);
+    formData.append('SumNImg', SumNImg);
+    formData.append('videoName', videoName);
+    formData.append('videoContent', videoContent);
 
     $.ajax({
         type: "Post",
-        url : "/uploadVideo",
-        data : formData,
+        url: "/uploadVideo",
+        data: formData,
         processData: false,
         contentType: false,
-        success : function(result){
+        success: function (result) {
             $("#loading").hide(); // 로딩 표시 표시
             $("#backLoad").hide();
             $('#videoName').val("");
@@ -175,7 +179,7 @@ function insert(){
             $("input[id='upload'] + label + div").css('display', 'none');
             window.location.href = "/videoPage";
         },
-        error : function (){
+        error: function () {
             $("#loading").hide(); // 로딩 표시 표시
             $("#backLoad").hide();
             console.log("insert 실패");

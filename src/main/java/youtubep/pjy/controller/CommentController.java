@@ -31,13 +31,22 @@ public class CommentController {
         comment.setComment_UserID(userID);
         comment.setComment_Description(Video_comment);
         commentService.updateComment(comment);
-        List<Comment> comments = commentService.findAll(video.getVideo_UID());
-        session.setAttribute("comments",comments);
-        return "/comment_list";
+        int video_UID = video.getVideo_UID();
+        session.setAttribute("video_UID",video_UID);
+        return "redirect:/comment_list";
+    }
+
+    @PostMapping("/CommentDelete")
+    public String deleteComment(@RequestParam("comment_UID") int comment_UID){
+        commentService.deleteComment(comment_UID);
+        return "redirect:/comment_list";
     }
 
     @GetMapping("/comment_list")
-    public String commentList(){
+    public String commentList(HttpSession session){
+        int video_UID = (int) session.getAttribute("video_UID");
+        List<Comment> comments = commentService.findAll(video_UID);
+        session.setAttribute("comments",comments);
         return "comment_list";
     }
 

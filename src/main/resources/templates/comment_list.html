@@ -59,8 +59,15 @@
         </div>
     </div>
     <!-- 댓글 리스트-->
-    <div id="comment-list" style="display: flex;flex: 1; flex-direction: column;">
-        <div style="display: flex;" th:each="comment, commentStat : ${session.comments}">
+    <div id="loading1"
+         style="display: none;z-index:101;flex: 1;position: relative;top: -20px;justify-content: center;margin-bottom: -30px;">
+        <lottie-player src="/static/js/comment loading.json" background="transparent" speed="1"
+                       style="width: 50px;height: 50px;z-index: 100" loop=""
+                       autoplay=""></lottie-player>
+    </div>
+    <div style="margin-bottom: 10px;" th:if="${session.userID == null}"></div>
+    <div style="display: flex;flex: 1; flex-direction: column;">
+        <div style="display: flex;margin-bottom: 25px" th:each="comment, commentStat : ${session.comments}">
             <div th:text="${commentStat.index}" hidden></div>
             <!--유저아이콘-->
             <div style="display: flex;width: 40px;height: 40px;margin-right: 10px;margin-top: 10px;">
@@ -78,25 +85,29 @@
                             2021-04-27 12:40:22
                         </div>
                     </div>
-                    <div style="display: flex;justify-content: space-between;align-items: flex-start;">
+                    <div style="display: flex;justify-content: space-between;align-items: flex-start;position: relative;left: -3px;">
                                             <textarea class="comment_List" name="comment_List"
                                                       style="display: flex; line-height: 1.5; border: none; outline: none;flex: 1;height: 27px; overflow-y: hidden; resize: none;"
                                                       readonly="">[[${comment.Comment_Description.replaceAll('^\\s+', '')}]]</textarea>
+                        <div style="display: flex;flex: 1;position: absolute;height: 30px;bottom: -25px;left: -5px;">
+                            <div hidden></div>
+                            <!--                  <div th:attr="id='lottie-like-'+${comment.comment_UID}" th:onclick="commentLike(event, [[${comment.comment_UID}]]);" style="cursor: pointer;"></div>-->
+                            <lottie-player src="/static/js/like.json" background="transparent" speed="1" th:onclick="commentLike(event, [[${comment.comment_UID}]]);"
+                                           style="width: 50px;height: 50px;z-index: 100"></lottie-player>
+                            <input id="checkLike" type="checkbox" hidden >
+                            <div style="display: flex;align-items: center;" th:text="${comment.comment_Like}">23</div>
+                        </div>
                         <!--내 댓글일 경우 토글창-->
                         <div id="MyCommentToggle"
                              style="display: flex;width: 20px;height: 20px;cursor: pointer;position: relative;"
-                             onclick="MyCommentToggle();"
+                             onclick="MyCommentToggle(event);"
                              th:if="${comment.comment_UserID == session.userID}">
-                            <img src="/static/image/login.png" alt=""
+                            <img src="/static/image/moreMypage.png" alt=""
                                  style="width: 100%;height: 100%;display: flex">
-                            <div id="MyComment"
-                                 style="z-index: 1000;background: rgb(255, 255, 255);position: absolute;top: 20px;display: none;flex-direction: column;line-height: 1.5;box-shadow: rgb(215, 215, 215) 0px 0px 5px;width: 70px;height: 70px;border-radius: 5px;justify-content: center;">
-                                <label for="updateMyComment" class="howViewComment" onclick="event.stopPropagation();"
-                                       style="display: flex;width: 100%;cursor: pointer;height: 45%;align-items: center;padding: 0 0 0 20px;font-size: 0.8em;">수정</label>
-                                <input id="updateMyComment" type="radio" style="display: none">
-                                <label for="deleteMyComment" class="howViewComment" onclick="event.stopPropagation();"
-                                       style="width: 100%;display: flex;cursor: pointer;height: 45%;align-items: center;padding: 0 20px;font-size: 0.8em;">삭제</label>
-                                <input id="deleteMyComment" type="radio" style="display: none">
+                            <div class="MyComment"
+                                 style="z-index: 77;background: rgb(255, 255, 255);position: absolute;top: 20px;display: none;flex-direction: column;line-height: 1.5;box-shadow: rgb(215, 215, 215) 0px 0px 5px;width: 70px;height: 35px;border-radius: 5px;justify-content: center;">
+                                <div class="howViewComment" th:onclick="deleteC([[${comment.comment_UID}]]);"
+                                     style="width: 100%;display: flex;cursor: pointer;height: 90%;align-items: center;padding: 0 20px;font-size: 0.8em;">삭제</div>
                             </div>
                         </div>
                     </div>
@@ -104,4 +115,5 @@
             </div>
         </div>
     </div>
+</div>
 </html>

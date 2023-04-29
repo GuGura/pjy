@@ -3,11 +3,10 @@ package youtubep.pjy.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import youtubep.pjy.domain.Video;
 import youtubep.pjy.service.MainPublicService;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -24,6 +23,9 @@ public class MainPublic {
 
     @GetMapping("/")
     public String Home(HttpSession session){
+        Cookie cookie3 = new Cookie("oneH","oneH");
+        cookie3.setMaxAge(60 * 60); //초단위
+
         List<Video> videos= mainPublicService.findAll();
         session.setAttribute("videos",videos);
         return "main_public";

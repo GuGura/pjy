@@ -3,57 +3,168 @@ $(function () {
     comment_Description();
     comment_List();
     updateBtn();
+    $(".MyCommentBtn").click(MyCommentToggle);
+
 });
 
-function updateText(a) {
-    const Video_comment = $(a).val();
-    const formData = new FormData();
-    formData.append('Video_comment',Video_comment);
-    $.ajax({
-        method: 'post',
-        data: formData,
-        contentType: false, // 추가
-        processData: false, // 추가
-        url: "/updateComment",
-        success: function (result) {
-            const commentList = $('#videoComment')
-            commentList.html(result);
-        },
-        error:function (result){
-            alert("실패");
-            console.log(result);
-        }
-    })
+function commentLike(event,id) {
+    event.stopPropagation();
+    let $checkbox = $(event.currentTarget).next('input[id=checkLike]');
+    let checked = $checkbox.prop('checked');
+    console.log(checked);
+    console.log(id);
+    if (checked) {
+        $checkbox.prop('checked', false);
+    } else {
+        $checkbox.prop('checked', true);
+    }
 }
 
-function myPage(a) {
+
+
+let animations = document.querySelectorAll('[id^="lottie-like-"]');
+animations.forEach(animation => {
+    let commentUID = animation.id.split('-')[2];
+    let newAnimation = lottie.loadAnimation({
+        container: animation,
+        renderer: 'svg',
+        loop: true,
+        autoplay: false,
+        path: '/static/js/like.json'
+    }).destroy();
+    newAnimatio = lottie.loadAnimation({
+        container: animation,
+        renderer: 'svg',
+        loop: true,
+        autoplay: false,
+        path: '/static/js/like.json'
+    });
+});
+
+
+function updateText(a) {
+    $("#loading1").css('display', 'flex');
+    const Video_comment = $(a).val();
+    const formData = new FormData();
+    formData.append('Video_comment', Video_comment);
+    setTimeout(function () {
+        $.ajax({
+            method: 'post',
+            data: formData,
+            contentType: false, // 추가
+            processData: false, // 추가
+            url: "/updateComment",
+            success: function (result) {
+                const commentList = $('#videoComment');
+                commentList.html(result);
+                $("#loading1").hide(); // 로딩 표시 표시
+                animations = document.querySelectorAll('[id^="lottie-like-"]');
+                animations.forEach(animation => {
+                    let commentUID = animation.id.split('-')[2];
+                    let newAnimation = lottie.loadAnimation({
+                        container: animation,
+                        renderer: 'svg',
+                        loop: true,
+                        autoplay: true,
+                        path: '/static/js/like.json'
+                    }).destroy();
+                    newAnimation = lottie.loadAnimation({
+                        container: animation,
+                        renderer: 'svg',
+                        loop: true,
+                        autoplay: true,
+                        path: '/static/js/like.json'
+                    });
+                });
+            },
+            error: function (result) {
+                alert("실패");
+                console.log(result);
+                $("#loading1").hide(); // 로딩 표시 표시
+            }
+        })
+    }, 1000)
+}
+function nextTime(unimplemented){
+    var implemented = unimplemented + '구현 예정';
+    alert(implemented)
+}
+function deleteC(a) {
+    console.log('comment_UID:' + a);
+    if (confirm('삭제하시겠습니까?')) {
+        $("#loading1").css('display', 'flex');
+        const comment_UID = a;
+        const formData = new FormData();
+        formData.append("comment_UID", comment_UID);
+        setTimeout(function () {
+            $.ajax({
+                method: 'post',
+                data: formData,
+                url: "/CommentDelete",
+                contentType: false, // 추가
+                processData: false, // 추가
+                success : function (result){
+                    const commentList = $('#videoComment');
+                    commentList.html(result);
+                    $("#loading1").hide(); // 로딩 표시 표시
+                    animations = document.querySelectorAll('[id^="lottie-like-"]');
+                    animations.forEach(animation => {
+                        let commentUID = animation.id.split('-')[2];
+                        let newAnimation = lottie.loadAnimation({
+                            container: animation,
+                            renderer: 'svg',
+                            loop: true,
+                            autoplay: true,
+                            path: '/static/js/like.json'
+                        }).destroy();
+                        newAnimation = lottie.loadAnimation({
+                            container: animation,
+                            renderer: 'svg',
+                            loop: true,
+                            autoplay: true,
+                            path: '/static/js/like.json'
+                        });
+                    });
+                },
+                error : function (result){
+                    console.log(result);
+                    $("#loading1").hide(); // 로딩 표시 표시
+                }
+            });
+        }, 1000)
+    }
+}
+
+function viewDelete(a) {
     console.log('video_UID:' + a);
-    if (confirm('삭제하시겠습니까?')){
-        var video_UID = a;
+    if (confirm('삭제하시겠습니까?')) {
+        const video_UID = a;
         const formData = new FormData();
         formData.append("video_UID", video_UID);
         $("#loading").show(); // 로딩 표시 표시
         $("#backLoad").show();
-        $.ajax({
-            contentType: false, // 추가
-            processData: false, // 추가
-            data : formData,
-            method : 'post',
-            url: '/deleteVideo',
-            success : function (result){
-                console.log(result);
-                $("#loading").hide(); // 로딩 표시 표시
-                $("#backLoad").hide();
-                location.href = "/";
-            },
-            error :function (result){
-                console.log(result)
-                $("#loading").hide(); // 로딩 표시 표시
-                $("#backLoad").hide();
-                alert("삭제 실패");
+        setTimeout(function () {
+            $.ajax({
+                contentType: false, // 추가
+                processData: false, // 추가
+                data: formData,
+                method: 'post',
+                url: '/deleteVideo',
+                success: function (result) {
+                    console.log(result);
+                    $("#loading").hide(); // 로딩 표시 표시
+                    $("#backLoad").hide();
+                    location.href = "/";
+                },
+                error: function (result) {
+                    console.log(result)
+                    $("#loading").hide(); // 로딩 표시 표시
+                    $("#backLoad").hide();
+                    alert("삭제 실패");
 
-            }
-        })
+                }
+            })
+        }, 2000);
     }
 }
 
@@ -71,18 +182,38 @@ function textReset(a) {
 /************************댓글창 reset *************************************/
 
 /*****************************************토글?창**************************************/
-function MyCommentToggle() {
-    var MyComment = $('#MyComment').css('display');
-    if (MyComment == 'flex') {
-        $('#MyComment').css('display', 'none');
-    } else if (MyComment == 'none') {
-        $('#MyComment').css('display', 'flex');
+function MyCommentToggle(event) {
+    const MyComment = $(event.currentTarget).find('.MyComment').css('display');
+    const MyComments = $(event.currentTarget).find('.MyComment');
+
+    MyComments.click(function (event) {
+        event.stopPropagation(); // 하위 엘리먼트 클릭 시 상위 엘리먼트로 이벤트 전파 방지
+    });
+
+    if (MyComment == 'none') {
+        MyComments.css('display', 'flex');
+        $('#background').show();
     }
+    $(function () {
+        background(MyComments);
+    });
+}
+
+function background(Window) {
+    $('#background').click(function () {
+        if (Window.css('display') == 'flex') {
+            Window.css('display', 'none');
+            $('#background').hide();
+            if (Window[0] == $('#myPageBtn')[0]) {
+                $('#MyVideoToggle').css('background', '#F2F2F2');
+            }
+        }
+    });
+
 }
 
 function commentBar() {
     var img = $("#commentBar").attr('src');
-    console.log("123");
     if (img == '/static/image/commentBarA.png') {
         $("#commentBar").attr('src', '/static/image/commentBarB.png');
         $('#howViewComment').css('display', 'flex');
@@ -94,13 +225,14 @@ function commentBar() {
 
 function MyVideoToggle() {
     var MyVideoToggle = $('#myPageBtn').css('display');
-    if (MyVideoToggle == 'flex') {
-        $('#MyVideoToggle').css('background', '#F2F2F2');
-        $('#myPageBtn').css('display', 'none');
-    } else if (MyVideoToggle == 'none') {
+    if (MyVideoToggle == 'none') {
         $('#MyVideoToggle').css('background', '#CECECE');
         $('#myPageBtn').css('display', 'flex');
+        $('#background').show();
     }
+    $(function () {
+        background($('#myPageBtn'));
+    });
 }
 
 /*****************************************토글?창**************************************/
@@ -156,7 +288,7 @@ function comment_List() {
     // textarea 요소의 높이를 자동으로 조정하는 함수입니다.
     function autoResizeTextarea() {
         // 스크롤을 사용하지 않도록 먼저 높이를 설정합니다.
-        $textareaList.css('height', 'auto');
+        $textareaList.css('height', '27px');
 
         // 모든 textarea 요소의 높이를 개별적으로 계산합니다.
         $textareaList.each(function () {
@@ -198,5 +330,5 @@ function video_Description() {
     autoResizeTextarea();
 
 }
-
 /**************** textbox 크기조절 ************************************************************/
+

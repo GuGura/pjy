@@ -5,10 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import youtubep.pjy.domain.Comment;
-import youtubep.pjy.domain.User;
-import youtubep.pjy.domain.UserForm;
-import youtubep.pjy.domain.Video;
+import youtubep.pjy.domain.*;
 import youtubep.pjy.service.CommentService;
 import youtubep.pjy.service.MyPageService;
 import youtubep.pjy.service.VideoUploadService;
@@ -112,13 +109,22 @@ public class MyPageController {
 
         Video thisVideo = myPageService.findVideo(video_UID);
         List<Comment> comments = commentService.findAll(video_UID);
+        List<LikeComment> likeComments = commentService.findLikeComments(video_UID);
+        session.setAttribute("likeComments",likeComments);
+        session.setAttribute("video_UID",video_UID);
         session.setAttribute("comments",comments);
         session.setAttribute("thisVideo",thisVideo);
         return "/videoPage";
     }
 
     @GetMapping("/videoPage")
-    public String VideoPage(){
+    public String VideoPage( HttpSession session){
+        Video video = (Video) session.getAttribute("thisVideo");
+        session.setAttribute("video_UID",video.getVideo_UID());
+        List<Comment> comments = commentService.findAll(video.getVideo_UID());
+        session.setAttribute("comments",comments);
+        List<LikeComment> likeComments = commentService.findLikeComments(video.getVideo_UID());
+        session.setAttribute("likeComments",likeComments);
         return "videoPage";
     }
 

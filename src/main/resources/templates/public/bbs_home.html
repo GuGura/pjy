@@ -37,6 +37,13 @@
     }
 </style>
 <div id="HomeContent" style="display: none; flex-direction: column;">
+    <div id="backLoad"
+         style="display:none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 99;background-color: black; filter: opacity(0.8)"></div>
+    <div id="loading"
+         style="position:fixed; display: none;top: 50%;left: 50%; z-index:101; transform: translate(-50%,-50%);font-size: 40px;">
+        <lottie-player src="/static/js/Aniki Hamster.json" background="transparent" speed="1"
+                       style="width: 300px; height: 300px;z-index: 100" loop autoplay></lottie-player>
+    </div>
     <!--헤더(상단 카테고리 / 영상 올리기)-->
     <div style="display: flex;flex: 1;justify-content: space-between;margin-bottom: 10px;">
         <select id="videoCategory" name="videoCategory" style="border: none;display: flex;">
@@ -49,14 +56,7 @@
             <input id="upload" style="display: none;"/>
             <label style="padding: 5px;border: 1px solid black;background: white;font-size:small;" for="upload"
                    onclick="openFrom();">업로드</label>
-            <div style="display:none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 100; align-items: center; justify-content: center;">
-                <div id="backLoad"
-                     style="display:none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 99;background-color: black; filter: opacity(0.8)"></div>
-                <div id="loading"
-                     style="position:fixed; display: none;top: 50%;left: 50%; z-index:101; transform: translate(-50%,-50%);font-size: 40px;">
-                    <lottie-player src="/static/js/Aniki Hamster.json" background="transparent" speed="1"
-                                   style="width: 300px; height: 300px;z-index: 100" loop autoplay></lottie-player>
-                </div>
+            <div style="display:none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 90; align-items: center; justify-content: center;">
                 <!----------------------------모달창 -->
                 <div style="position: relative; width: 960px; min-width: 960px; min-height: 75%;box-shadow: 0 0 5px rgb(215, 215, 215); z-index: 2; background: #fff;border-radius: 10px;">
                     <!----------------------------헤더 -->
@@ -150,9 +150,8 @@
                         <img src="/static/image/moreMypage.png" style="width: 100%;height: 100%;display: flex;">
                         <div id="deleteVideo"
                              style="z-index: 30; background: rgb(255, 255, 255); position: absolute; top: 0px; left: 30px; display: none; flex-direction: column; line-height: 1.5; box-shadow: rgb(215, 215, 215) 0px 0px 5px; width: 50px; height: 30px; border-radius: 5px; justify-content: center;">
-                            <label for="deleteBtn" class="howViewComment" th:onclick="deleteR([[${video.video_UID}]]);"
-                                   style="display: flex;width: 100%;cursor: pointer;height: 80%;align-items: center;font-size: 0.8em;justify-content: center;">삭제</label>
-                            <input id="deleteBtn" type="button" style="display: none">
+                            <div for="deleteBtn" class="howViewComment" th:onclick="deleteR([[${video.video_UID}]]);"
+                                   style="display: flex;width: 100%;cursor: pointer;height: 80%;align-items: center;font-size: 0.8em;justify-content: center;">삭제</div>
                         </div>
                     </div>
                 </div>

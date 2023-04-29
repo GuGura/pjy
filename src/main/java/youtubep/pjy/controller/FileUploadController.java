@@ -59,7 +59,7 @@ public class FileUploadController {
             System.out.println("파일업로드에 실패했습니다. FileUploadController/uploadVideo");
         }
 
-        return "/videoPage";//그냥 url만들고 거기로 이동시켜라
+        return "bbs";//그냥 url만들고 거기로 이동시켜라
     }
 
 }
