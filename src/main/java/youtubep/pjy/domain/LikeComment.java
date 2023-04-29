@@ -5,8 +5,9 @@ import java.util.Date;
 public class LikeComment {
     private int Comment_UID;
     private String UserID;
-    private Date CommentLike_Join_Date;
     private int Video_UID;
+    private Date CommentLike_Join_Date;
+
 
     public int getVideo_UID() {
         return Video_UID;

@@ -30,4 +30,10 @@ public interface CommentMapper {
 
     @Select("SELECT count(*) FROM likeComment WHERE Comment_UID = #{Comment_UID}")
     int findLikeCount(int Comment_UID);
+
+    @Insert("INSERT INTO likeComment (Comment_UID,Video_UID,UserID) values(#{comment_UID},#{video_UID},#{userID})")
+    void saveCommentLike(LikeComment likeComment);
+
+    @Delete("Delete from likeComment where Comment_UID = #{comment_UID} and Video_UID = #{video_UID} and UserID = #{userID}")
+    void deleteCommetLike(LikeComment likeComment);
 }

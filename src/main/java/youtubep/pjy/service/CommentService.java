@@ -21,6 +21,15 @@ public class CommentService {
     public void updateComment(Comment comment){
         commentMapper.save(comment);
     }
+    public void updateCommentLike(LikeComment likeComment,boolean check){
+        if (check == false){
+            commentMapper.saveCommentLike(likeComment);
+        }
+        else if (check == true)
+        {
+            commentMapper.deleteCommetLike(likeComment);
+        }
+    }
     public void deleteComment(int comment_UID){
         commentMapper.deleteComment(comment_UID);
     }

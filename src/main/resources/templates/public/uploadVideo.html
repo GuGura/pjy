@@ -197,10 +197,7 @@
                                                       style="display: flex; line-height: 1.5; border: none; outline: none;flex: 1;height: 27px; overflow-y: hidden; resize: none;"
                                                       readonly="">[[${comment.Comment_Description.replaceAll('^\\s+', '')}]]</textarea>
                                             <div style="display: flex;flex: 1;position: absolute;height: 30px;bottom: -25px;left: -5px;">
-                                                <div hidden></div>
-                              <!--                  <div th:attr="id='lottie-like-'+${comment.comment_UID}" th:onclick="commentLike(event, [[${comment.comment_UID}]]);" style="cursor: pointer;"></div>-->
-                                                <lottie-player src="/static/js/like.json" background="transparent" speed="1" th:onclick="commentLike(event, [[${comment.comment_UID}]]);"
-                                                               style="width: 50px;height: 50px;z-index: 100"></lottie-player>
+                                                   <lottie-player th:attr="id='lottie-like-'+${comment.comment_UID}" src="/static/js/like.json" background="transparent" speed="1" th:onclick="commentLike(event, 'lottie-like-'+[[${comment.comment_UID}]]);" style="width: 50px;height: 50px;z-index: 100"></lottie-player>
                                                 <input id="checkLike" type="checkbox" hidden >
                                                 <div style="display: flex;align-items: center;" th:text="${comment.comment_Like}">23</div>
                                             </div>

@@ -9,38 +9,37 @@ $(function () {
 
 function commentLike(event,id) {
     event.stopPropagation();
+    const formData = new FormData();
     let $checkbox = $(event.currentTarget).next('input[id=checkLike]');
     let checked = $checkbox.prop('checked');
+    let lottie = $('#'+id)[0]['_lottie'];
+    const middleFrame = 30;
+    console.dir(lottie);
     console.log(checked);
-    console.log(id);
+    // 로띠 애니메이션 가져오기
     if (checked) {
+        // 애니메이션 프레임 0
+        lottie.playSegments([middleFrame, 0],true);
         $checkbox.prop('checked', false);
     } else {
+        // 애니메이션 재생
+        lottie.playSegments([0, middleFrame],true);
         $checkbox.prop('checked', true);
     }
-}
 
-
-
-let animations = document.querySelectorAll('[id^="lottie-like-"]');
-animations.forEach(animation => {
-    let commentUID = animation.id.split('-')[2];
-    let newAnimation = lottie.loadAnimation({
-        container: animation,
-        renderer: 'svg',
-        loop: true,
-        autoplay: false,
-        path: '/static/js/like.json'
-    }).destroy();
-    newAnimatio = lottie.loadAnimation({
-        container: animation,
-        renderer: 'svg',
-        loop: true,
-        autoplay: false,
-        path: '/static/js/like.json'
+    formData.append("checked",checked);
+    formData.append("comment_UIDs",id);
+    $.ajax({
+        method:'post',
+        data: formData,
+        contentType: false, // 추가
+        processData: false, // 추가
+        url : "/commentLike",
+        success :function (result){
+            console.dir(result);
+        }
     });
-});
-
+}
 
 function updateText(a) {
     $("#loading1").css('display', 'flex');
@@ -58,24 +57,6 @@ function updateText(a) {
                 const commentList = $('#videoComment');
                 commentList.html(result);
                 $("#loading1").hide(); // 로딩 표시 표시
-                animations = document.querySelectorAll('[id^="lottie-like-"]');
-                animations.forEach(animation => {
-                    let commentUID = animation.id.split('-')[2];
-                    let newAnimation = lottie.loadAnimation({
-                        container: animation,
-                        renderer: 'svg',
-                        loop: true,
-                        autoplay: true,
-                        path: '/static/js/like.json'
-                    }).destroy();
-                    newAnimation = lottie.loadAnimation({
-                        container: animation,
-                        renderer: 'svg',
-                        loop: true,
-                        autoplay: true,
-                        path: '/static/js/like.json'
-                    });
-                });
             },
             error: function (result) {
                 alert("실패");
@@ -106,25 +87,6 @@ function deleteC(a) {
                 success : function (result){
                     const commentList = $('#videoComment');
                     commentList.html(result);
-                    $("#loading1").hide(); // 로딩 표시 표시
-                    animations = document.querySelectorAll('[id^="lottie-like-"]');
-                    animations.forEach(animation => {
-                        let commentUID = animation.id.split('-')[2];
-                        let newAnimation = lottie.loadAnimation({
-                            container: animation,
-                            renderer: 'svg',
-                            loop: true,
-                            autoplay: true,
-                            path: '/static/js/like.json'
-                        }).destroy();
-                        newAnimation = lottie.loadAnimation({
-                            container: animation,
-                            renderer: 'svg',
-                            loop: true,
-                            autoplay: true,
-                            path: '/static/js/like.json'
-                        });
-                    });
                 },
                 error : function (result){
                     console.log(result);
