@@ -10,7 +10,16 @@ public class Comment {
     private Date Comment_Join_Date;
     private int Comment_Like;
 
+    private String isChecked; // LIKECOMMENT에서 조인
     private String icon_URL; //Users테이브에서 조인 예정
+
+    public String getIsChecked() {
+        return isChecked;
+    }
+
+    public void setIsChecked(String isChecked) {
+        this.isChecked = isChecked;
+    }
 
     public String getIcon_URL() {
         return icon_URL;
@@ -66,5 +75,19 @@ public class Comment {
 
     public void setComment_Like(int comment_Like) {
         Comment_Like = comment_Like;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "Comment_UID=" + Comment_UID +
+                ", Video_UID=" + Video_UID +
+                ", Comment_UserID='" + Comment_UserID + '\'' +
+                ", Comment_Description='" + Comment_Description + '\'' +
+                ", Comment_Join_Date=" + Comment_Join_Date +
+                ", Comment_Like=" + Comment_Like +
+                ", isChecked='" + isChecked + '\'' +
+                ", icon_URL='" + icon_URL + '\'' +
+                '}';
     }
 }

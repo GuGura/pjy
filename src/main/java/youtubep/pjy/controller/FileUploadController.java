@@ -49,7 +49,7 @@ public class FileUploadController {
         int video_UID = videoUploadService.uploadVideo(video);
 
         try {
-            Video thisVideo = pageService.findVideo(video_UID);
+            Video thisVideo = pageService.findVideo(video_UID,uploader);
             System.out.println(thisVideo.getVideo_URL());
             System.out.println(thisVideo.getVideo_SumName_URL());
             session.setAttribute("thisVideo",thisVideo);

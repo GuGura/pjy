@@ -27,9 +27,6 @@ public class VideoUploadService {
         return findVideoUID(video);
     }
 
-    public Video findVideo(Video video) {
-        return videoUploadMapper.findVideo(video);
-    }
     public int findVideoUID(Video video) {
         return videoUploadMapper.findVideoUID(video);
     }

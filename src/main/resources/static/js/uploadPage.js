@@ -4,41 +4,88 @@ $(function () {
     comment_List();
     updateBtn();
     $(".MyCommentBtn").click(MyCommentToggle);
-
+    isChecks();
+    isVideoLike();
 });
+
+function VideoLike(){
+    var userid = $('#userID').text();
+    console.log(userid);
+    if(userid == ""){
+        location.href="/login";
+    }
+    let videoLike_lottie = $('#videoLike')[0]['_lottie'];
+    console.dir(videoLike_lottie);
+    let VideoLike_Checked = $('#videoLike').next("#videoLikeCheck")[0].checked;
+    console.log(VideoLike_Checked);
+    const formData = new FormData();
+    formData.append("checked",VideoLike_Checked);
+    $.ajax({
+        method:'post',
+        data : formData,
+        contentType : false,
+        processData : false,
+        url : "/video/like",
+        success : function (result){
+            console.dir(result);
+            if(result.like == false){
+                $('#videoLikeCnt').text('좋아요: '+result.likeCnt);
+                videoLike_lottie.playSegments([0,25],true);
+                $('#videoLike').next("#videoLikeCheck")[0].checked = true;
+            }else{
+                $('#videoLikeCnt').text('좋아요: '+result.likeCnt);
+                videoLike_lottie.playSegments([22,0],true);
+                $('#videoLike').next("#videoLikeCheck")[0].checked = false;
+            }
+        }
+    })
+
+}
 
 function commentLike(event,id) {
     event.stopPropagation();
-    const formData = new FormData();
-    let $checkbox = $(event.currentTarget).next('input[id=checkLike]');
-    let checked = $checkbox.prop('checked');
-    let lottie = $('#'+id)[0]['_lottie'];
-    const middleFrame = 30;
-    console.dir(lottie);
-    console.log(checked);
-    // 로띠 애니메이션 가져오기
-    if (checked) {
-        // 애니메이션 프레임 0
-        lottie.playSegments([middleFrame, 0],true);
-        $checkbox.prop('checked', false);
-    } else {
-        // 애니메이션 재생
-        lottie.playSegments([0, middleFrame],true);
-        $checkbox.prop('checked', true);
+    var userid = $('#userID').text();
+    console.log(userid);
+    if(userid == ""){
+        location.href="/login";
     }
-
-    formData.append("checked",checked);
-    formData.append("comment_UIDs",id);
-    $.ajax({
-        method:'post',
-        data: formData,
-        contentType: false, // 추가
-        processData: false, // 추가
-        url : "/commentLike",
-        success :function (result){
-            console.dir(result);
-        }
-    });
+    else {
+        const formData = new FormData();
+        let $checkbox = $(event.currentTarget).next('input[id^=checkLike-]');
+        let commentCnt = $(event.currentTarget).next('input[id^=checkLike-]').next('[id^=commentCnt-]');
+        let checked = $checkbox.prop('checked');
+        let lottie = $('#'+id)[0]['_lottie'];
+        const middleFrame = 30;
+       // console.dir(lottie);
+        // 로띠 애니메이션 가져오기
+        formData.append("checked",checked);
+        formData.append("comment_UIDs",id);
+        $.ajax({
+            method:'post',
+            data: formData,
+            contentType: false, // 추가
+            processData: false, // 추가
+            url : "/comment/like",
+            success :function (result){
+                console.dir(result);
+                if (result.like) {
+                    // 애니메이션 프레임 0
+                    commentCnt.text(result.likeCnt);
+                   // console.log(commentCnt.text());
+                    lottie.playSegments([middleFrame, 0],true);
+                    $checkbox.prop('checked', false);
+                } else {
+                    // 애니메이션 재생
+                    commentCnt.text(result.likeCnt);
+                    //console.log(commentCnt.text());
+                    lottie.playSegments([0, middleFrame],true);
+                    $checkbox.prop('checked', true);
+                }
+                //const commentList = $('#videoComment');
+                //commentList.html(result);
+            }
+        });
+    }
 }
 
 function updateText(a) {
@@ -56,7 +103,13 @@ function updateText(a) {
             success: function (result) {
                 const commentList = $('#videoComment');
                 commentList.html(result);
+                console.dir(result);
                 $("#loading1").hide(); // 로딩 표시 표시
+
+                setTimeout(()=>{
+                    isChecks();
+                    updateBtn();
+                },500);
             },
             error: function (result) {
                 alert("실패");
@@ -87,6 +140,10 @@ function deleteC(a) {
                 success : function (result){
                     const commentList = $('#videoComment');
                     commentList.html(result);
+                    setTimeout(()=>{
+                        isChecks();
+                        updateBtn();
+                    },500);
                 },
                 error : function (result){
                     console.log(result);
@@ -294,3 +351,27 @@ function video_Description() {
 }
 /**************** textbox 크기조절 ************************************************************/
 
+//----------------------------Lottie html 랜더링 후 첫상태------------------------------
+//댓글
+function isChecks(){
+    var lottieId = $('[id^=lottie-like-]');
+    var lottieD = $('[id^=lottie-like-]').next('input[id^=checkLike-]');
+    for(let i = 0 ; i<lottieId.length ; i++){
+        var lottieA = lottieId[i]['_lottie'];
+        var ischeck = lottieD[i].checked;
+        if(ischeck == true){
+            lottieA.playSegments([25,30],true);
+        }
+    }
+}
+//비디오
+function isVideoLike(){
+    let videoLike_lottie = $('#videoLike')[0]['_lottie'];
+    console.dir(videoLike_lottie);
+    let VideoLike_Checked = $('#videoLike').next("#videoLikeCheck")[0].checked;
+    console.log(VideoLike_Checked);
+    if (VideoLike_Checked == true){
+        videoLike_lottie.playSegments([24,25],true);
+    }
+}
+//----------------------------Lottie html 랜더링 후 첫상태------------------------------

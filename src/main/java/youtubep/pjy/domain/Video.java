@@ -16,24 +16,14 @@ public class Video implements Serializable {
 
     private String icon_URL; // Users 테이블에서 조인해서 들고와라
     private String channel_name; //Users 테이블에서 조인해서 들고와라
+    private String isChecked; //VideoLike 테이블에서 조인해서 들고와라
 
-    @Override
-    public String toString() {
-        return "Video{" +
-                "video_UID=" + video_UID +
-                ", upload_User='" + upload_User + '\'' +
-                ", video_SumName_URL='" + video_SumName_URL + '\'' +
-                ", video_URL='" + video_URL + '\'' +
-                ", video_Name='" + video_Name + '\'' +
-                ", video_Description='" + video_Description + '\'' +
-                ", video_Join_Date=" + video_Join_Date +
-                ", video_Like=" + video_Like +
-                ", views=" + views +
-                ", icon_URL='" + icon_URL + '\'' +
-                ", channel_name='" + channel_name + '\'' +
-                '}';
+    public String getIsChecked() {
+        return isChecked;
     }
-
+    public void setIsChecked(String isChecked) {
+        this.isChecked = isChecked;
+    }
     public String getChannel_name() {
         return channel_name;
     }
@@ -121,4 +111,22 @@ public class Video implements Serializable {
     public void setViews(int views) {
         this.views = views;
     }
+
+    @Override
+    public String toString() {
+        return "Video{" +
+                "video_UID=" + video_UID +
+                ", upload_User='" + upload_User + '\'' +
+                ", video_SumName_URL='" + video_SumName_URL + '\'' +
+                ", video_URL='" + video_URL + '\'' +
+                ", video_Name='" + video_Name + '\'' +
+                ", video_Description='" + video_Description + '\'' +
+                ", video_Join_Date=" + video_Join_Date +
+                ", video_Like=" + video_Like +
+                ", views=" + views +
+                ", icon_URL='" + icon_URL + '\'' +
+                ", channel_name='" + channel_name + '\'' +
+                '}';
+    }
+
 }

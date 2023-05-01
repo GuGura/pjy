@@ -46,6 +46,7 @@
          style="display:none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;filter: opacity(0);z-index: 10;"></div>
 
     <div id="video_UID" hidden th:text="${session.thisVideo.video_UID}"></div>
+    <div id="userID" hidden th:text="${session.userID}"></div>
     <div class="d-flex-dc" id="content" style="flex: 1">
         <!-- itembox_n1
             MainD:  카테고리, 유저
@@ -70,9 +71,17 @@
                                     <div style="display: flex;padding: 5px;font-weight: 600;"
                                          th:text="${session.thisVideo.channel_name}"></div>
                                     <div style="display: flex;padding: 0 5px;">
-                                        <div style="display: flex;margin-right: 10px;"
+                                        <div id="videoLikeCnt" style="display: flex;margin-right: 10px;"
                                              th:text="'좋아요: '+${session.thisVideo.video_Like}"></div>
                                     </div>
+                                </div>
+                                <div onclick="VideoLike();" style="display: flex;width: 50px;height: 50px;align-items: flex-end;position: relative;left: -20px;bottom: -9px;">
+                                    <lottie-player id="videoLike" src="/static/js/videoLike.json"
+                                                   background="transparent" speed="1"
+                                                   style="width: 100%;height: 100%;display: flex;"></lottie-player>
+                                    <input type="checkbox" id="videoLikeCheck" hidden th:checked="${session.userID != null and session.userID == session.thisVideo.isChecked }">
+                                    <div th:text="${session.thisVideo.isChecked}" hidden></div>
+                                    <div th:text="${session.userID}" hidden></div>
                                 </div>
                             </div>
                             <div id="MyVideoToggle" onclick="MyVideoToggle();"
@@ -174,7 +183,8 @@
                         </div>
                         <div style="margin-bottom: 10px;" th:if="${session.userID == null}"></div>
                         <div style="display: flex;flex: 1; flex-direction: column;">
-                            <div style="display: flex;margin-bottom: 25px" th:each="comment, commentStat : ${session.comments}">
+                            <div style="display: flex;margin-bottom: 25px"
+                                 th:each="comment, commentStat : ${session.comments}">
                                 <div th:text="${commentStat.index}" hidden></div>
                                 <!--유저아이콘-->
                                 <div style="display: flex;width: 40px;height: 40px;margin-right: 10px;margin-top: 10px;">
@@ -193,13 +203,22 @@
                                             </div>
                                         </div>
                                         <div style="display: flex;justify-content: space-between;align-items: flex-start;position: relative;left: -3px;">
-                                            <textarea class="comment_List" name="comment_List"x`
-                                                      style="display: flex; line-height: 1.5; border: none; outline: none;flex: 1;height: 27px; overflow-y: hidden; resize: none;"
-                                                      readonly="">[[${comment.Comment_Description.replaceAll('^\\s+', '')}]]</textarea>
+                                             <textarea class="comment_List" name="comment_List"
+                                                       style="display: flex; line-height: 1.5; border: none; outline: none;flex: 1;height: 27px; overflow-y: hidden; resize: none;"
+                                                       readonly="">[[${comment.Comment_Description.replaceAll('^\\s+', '')}]]</textarea>
                                             <div style="display: flex;flex: 1;position: absolute;height: 30px;bottom: -25px;left: -5px;">
-                                                   <lottie-player th:attr="id='lottie-like-'+${comment.comment_UID}" src="/static/js/like.json" background="transparent" speed="1" th:onclick="commentLike(event, 'lottie-like-'+[[${comment.comment_UID}]]);" style="width: 50px;height: 50px;z-index: 100"></lottie-player>
-                                                <input id="checkLike" type="checkbox" hidden >
-                                                <div style="display: flex;align-items: center;" th:text="${comment.comment_Like}">23</div>
+                                                <lottie-player th:attr="id='lottie-like-'+${comment.comment_UID}"
+                                                               src="/static/js/like.json"
+                                                               background="transparent" speed="1"
+                                                               th:onclick="commentLike(event, 'lottie-like-'+[[${comment.comment_UID}]]);"
+                                                               style="z-index: 100"></lottie-player>
+                                                <input th:attr="id='checkLike-'+${comment.comment_UID}" type="checkbox"
+                                                       hidden
+                                                       th:checked="${comment.isChecked == session.userID and session.userID != null}">
+                                                <div th:attr="id='commentCnt-'+${comment.comment_UID}"
+                                                     style="display: flex;align-items: center;"
+                                                     th:text="${comment.comment_Like}">23
+                                                </div>
                                             </div>
                                             <!--내 댓글일 경우 토글창-->
                                             <div id="MyCommentToggle"
@@ -210,8 +229,11 @@
                                                      style="width: 100%;height: 100%;display: flex">
                                                 <div class="MyComment"
                                                      style="z-index: 77;background: rgb(255, 255, 255);position: absolute;top: 20px;display: none;flex-direction: column;line-height: 1.5;box-shadow: rgb(215, 215, 215) 0px 0px 5px;width: 70px;height: 35px;border-radius: 5px;justify-content: center;">
-                                                    <div class="howViewComment" th:onclick="deleteC([[${comment.comment_UID}]]);"
-                                                           style="width: 100%;display: flex;cursor: pointer;height: 90%;align-items: center;padding: 0 20px;font-size: 0.8em;">삭제</div>
+                                                    <div class="howViewComment"
+                                                         th:onclick="deleteC([[${comment.comment_UID}]]);"
+                                                         style="width: 100%;display: flex;cursor: pointer;height: 90%;align-items: center;padding: 0 20px;font-size: 0.8em;">
+                                                        삭제
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

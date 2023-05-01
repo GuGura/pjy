@@ -27,7 +27,7 @@
         <!--  MainD:  유저 소개
              개인페이지: div 두개 나눠서 위에는 메뉴바 밑에는 content
          -->
-        <div style="display:flex;flex:1;width: 100%;">
+        <div style="display:flex;flex:1;width: 100%;" id="listView">
             <div style="display: flex;justify-content:flex-start;flex-wrap: wrap;">
                 <div style="display: flex; margin-bottom: 40px;" th:each="video, videoStat : ${session.videos}">
                     <div th:text="${videoStat.index}" hidden></div>
@@ -55,6 +55,10 @@
                                 <div style="display: flex;flex: 1;padding: 0 6px;">
                                     <div style="display: flex;font-size: small;color: #909090;margin-right: 15px;"
                                          th:text="'조회수: ' + ${video.views}">조회수: 0
+                                    </div>
+                                    <div style="display: flex;font-size: small; color: #909090;margin-right: 15px;"
+                                         th:text="'좋아요: ' + ${video.video_Like}">
+                                        좋아요: 100
                                     </div>
                                     <div style="display: flex;font-size: small;color: #909090"
                                          th:text="${#dates.format(video.video_Join_Date,'yy-MM-dd HH:mm')}">8분 전

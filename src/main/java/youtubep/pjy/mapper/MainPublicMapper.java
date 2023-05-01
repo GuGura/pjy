@@ -13,4 +13,7 @@ public interface MainPublicMapper {
 
     @Select("SELECT * FROM VIDEO")
     List<Video> findAll();
+
+    @Select("SELECT * FROM VIDEO order by Video_Like desc")
+    List<Video> findAll2();
 }

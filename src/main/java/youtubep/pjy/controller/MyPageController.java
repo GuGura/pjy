@@ -106,11 +106,13 @@ public class MyPageController {
     }
     @GetMapping("/videoPage/{video_UID}")
     public String VideoPage(@PathVariable int video_UID, HttpSession session){
-
-        Video thisVideo = myPageService.findVideo(video_UID);
-        List<Comment> comments = commentService.findAll(video_UID);
-        List<LikeComment> likeComments = commentService.findLikeComments(video_UID);
-        session.setAttribute("likeComments",likeComments);
+        String userID = (String)session.getAttribute("userID");
+        System.out.println(userID);
+        if (userID == null){
+            userID = "";
+        }
+        Video thisVideo = myPageService.findVideo(video_UID,userID);
+        List<Comment> comments = commentService.findAll(video_UID,userID);
         session.setAttribute("video_UID",video_UID);
         session.setAttribute("comments",comments);
         session.setAttribute("thisVideo",thisVideo);
@@ -119,12 +121,11 @@ public class MyPageController {
 
     @GetMapping("/videoPage")
     public String VideoPage( HttpSession session){
+        String userID = (String)session.getAttribute("userID");
         Video video = (Video) session.getAttribute("thisVideo");
         session.setAttribute("video_UID",video.getVideo_UID());
-        List<Comment> comments = commentService.findAll(video.getVideo_UID());
+        List<Comment> comments = commentService.findAll(video.getVideo_UID(),userID);
         session.setAttribute("comments",comments);
-        List<LikeComment> likeComments = commentService.findLikeComments(video.getVideo_UID());
-        session.setAttribute("likeComments",likeComments);
         return "videoPage";
     }
 

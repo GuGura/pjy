@@ -19,9 +19,9 @@ public class CommentController {
     private final CommentService commentService;
 
     @Autowired
-    public CommentController(CommentService commentService) {
-        this.commentService = commentService;
-    }
+        public CommentController(CommentService commentService) {
+            this.commentService = commentService;
+        }
 
     @PostMapping("/updateComment")
     public String updateComment(@RequestParam("Video_comment") String Video_comment, HttpSession session) {
@@ -45,8 +45,9 @@ public class CommentController {
 
     @GetMapping("/comment_list")
     public String commentList(HttpSession session) {
+        String userID = (String) session.getAttribute("userID");
         int video_UID = (int) session.getAttribute("video_UID");
-        List<Comment> comments = commentService.findAll(video_UID);
+        List<Comment> comments = commentService.findAll(video_UID,userID);
         session.setAttribute("comments", comments);
         return "comment_list";
     }
@@ -72,7 +73,7 @@ public class CommentController {
         System.out.println(userID);
         System.out.println(Video_UID);
         commentService.updateCommentLike(comment,checked);
-        return "redirect:/";
+        return "redirect:/comment_list";
     }
 
 }

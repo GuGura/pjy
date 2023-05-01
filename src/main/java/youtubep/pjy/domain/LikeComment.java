@@ -40,4 +40,14 @@ public class LikeComment {
     public void setCommentLike_Join_Date(Date commentLike_Join_Date) {
         CommentLike_Join_Date = commentLike_Join_Date;
     }
+
+    @Override
+    public String toString() {
+        return "LikeComment{" +
+                "Comment_UID=" + Comment_UID +
+                ", UserID='" + UserID + '\'' +
+                ", Video_UID=" + Video_UID +
+                ", CommentLike_Join_Date=" + CommentLike_Join_Date +
+                '}';
+    }
 }

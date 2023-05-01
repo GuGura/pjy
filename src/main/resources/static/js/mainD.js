@@ -48,6 +48,7 @@ $(function(){
 });
 
 function category(x){
+	var category;
 	if(x=='a'){
 		$('#category > div:nth-of-type(1) input').css('background-color','#060606');
 		$('#category > div:nth-of-type(1) input').css('color','white');
@@ -55,6 +56,7 @@ function category(x){
 		$('#category > div:nth-of-type(2) input').css('color','black');
 		$('#category > div:nth-of-type(3) input').css('background-color','#F2F2F2');
 		$('#category > div:nth-of-type(3) input').css('color','black');
+		category = 'all';
 	}
 	if(x=='p'){
 		$('#category > div:nth-of-type(2) input').css('background-color','#060606');
@@ -63,6 +65,7 @@ function category(x){
 		$('#category > div:nth-of-type(1) input').css('color','black');
 		$('#category > div:nth-of-type(3) input').css('background-color','#F2F2F2');
 		$('#category > div:nth-of-type(3) input').css('color','black');
+		category = 'popular';
 	}
 	if(x=='s'){
 		$('#category > div:nth-of-type(3) input').css('background-color','#060606');
@@ -72,6 +75,20 @@ function category(x){
 		$('#category > div:nth-of-type(1) input').css('background-color','#F2F2F2');
 		$('#category > div:nth-of-type(1) input').css('color','black');
 	}
+	const formData = new FormData();
+	formData.append("category",category);
+	$.ajax({
+		method:'post',
+		data: formData,
+		contentType: false,
+		processData: false,
+		url: '/listview',
+		success : function (result){
+			setTimeout(()=>{
+				$('#listView').html(result);
+			},500);
+		}
+	})
 }
 function myPage(){
 	location.href="/MyPage";

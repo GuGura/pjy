@@ -157,7 +157,7 @@
                 </div>
                 <div style="display: flex;flex: 1;">
                     <div style="display: flex;font-size: small;color: #909090;margin-right: 15px;"
-                         th:text="${video.views}">조회수: 0
+                         th:text="'조회수:'+${video.views}">조회수: 0
                     </div>
                     <div style="display: flex;font-size: small;color: #909090"
                          th:text="${#dates.format(video.video_Join_Date,'yy-MM-dd HH:mm')}">8분 전
