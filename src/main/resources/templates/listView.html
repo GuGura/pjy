@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div style="display:flex;flex:1;width: 100%;" id="listView">
+    <div style="display: flex;justify-content:flex-start;flex-wrap: wrap;">
+        <div style="display: flex; margin-bottom: 40px;" th:each="video, videoStat : ${session.videos}">
+            <div th:text="${videoStat.index}" hidden></div>
+            <!--//-->
+            <div class="wh" style="display: flex;flex-direction: column;">
+                <div style="width: 90%; box-shadow: 0 0 5px #E5E5E5;border-radius: 5%;min-height:200px;height: 150px;cursor: pointer;">
+                    <a th:href="${'/videoPage/'+video.video_UID}">
+                        <img style="width:100%;height:100%;filter: opacity(0.5);" alt=""
+                             th:src="@{${video.video_SumName_URL}+ '?time=' + ${#dates.createNow().getTime()}}"></a>
+                </div>
+                <div style="display: flex;flex: 1;">
+                    <div style="display: flex;margin-right: 5px;width: 50px;height: 50px;position: relative;top: 5px;">
+                        <a th:href="${'/videoPage/'+video.video_UID}">
+                            <img th:src="${video.icon_URL}" alt="채널아이콘"
+                                 style="width: 100%;height: 100%;filter: opacity(0.8);">
+                        </a>
+                    </div>
+                    <div>
+                        <a th:href="${'/videoPage/'+video.video_UID}">
+                            <div style="display:flex;flex:1;flex-wrap: wrap;width: 90%;align-content: center;cursor: pointer;padding: 5px;line-height: 1.4;word-break: break-all;font-size: larger;"
+                                 th:text="${video.video_Name}">비디오제목
+                            </div>
+                            <div style="padding: 0 5px;" th:text="${video.channel_name}">채널이름</div>
+                        </a>
+                        <div style="display: flex;flex: 1;padding: 0 6px;">
+                            <div style="display: flex;font-size: small;color: #909090;margin-right: 15px;"
+                                 th:text="'조회수: ' + ${video.views}">조회수: 0
+                            </div>
+                            <div style="display: flex;font-size: small; color: #909090;margin-right: 15px;"
+                                 th:text="'좋아요: ' + ${video.video_Like}">
+                                좋아요: 100
+                            </div>
+                            <div style="display: flex;font-size: small;color: #909090"
+                                 th:text="${#dates.format(video.video_Join_Date,'yy-MM-dd HH:mm')}">8분 전
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--//-->
+        </div>
+    </div>
+</div>
+</html>
