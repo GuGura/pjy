@@ -11,7 +11,7 @@
         color: black;
     }
 </style>
-<div th:fragment="mainD_content">
+<div th:fragment="mainD_content"  id="mainD_content">
     <div class="d-flex-dc" id="content">
         <!-- itembox_n1
             MainD:  카테고리, 유저
@@ -19,9 +19,9 @@
         <div class="w-full itembox_n1" style="height: 40px;margin-bottom: 15px;">
             <!-- 상단 카테고리 -->
             <div id="category" class="d-flex-dr w-full">
-                <div><input type="button" value="전체" onclick="category('a')"></div>
+                <div><input type="button" value="최신" onclick="category('a')"></div>
                 <div><input type="button" value="인기" onclick="category('p')"></div>
-                <div><input type="button" value="구독" onclick="category('s')"></div>
+                <div><input type="button" value="조회수" onclick="category('s')"></div>
             </div>
         </div>
         <!--  MainD:  유저 소개

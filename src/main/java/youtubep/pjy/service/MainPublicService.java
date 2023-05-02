@@ -25,7 +25,10 @@ public class MainPublicService {
         List<Video> video = new ArrayList<>();
        if(category.equals("popular")){
             video = mainPublicMapper.findAll2();
-        }else{
+        }else if (category.equals("view")){
+           video = mainPublicMapper.findAll3();
+       }
+        else{
             video = mainPublicMapper.findAll();
         }
         for(int i = 0 ; i<video.size();i++){
@@ -39,6 +42,39 @@ public class MainPublicService {
             video.get(i).setVideo_Like(VideoLikeCtn);
         }
         return video;
+    }
+
+    public int isUploaderExist(String search){
+        return mainPublicMapper.findUploader(search);
+    }
+
+    public List<Video> findUploaderVideo(String search){
+        return mainPublicMapper.findUploaderVideo(search);
+    }
+
+    public List<Video> findSearchVideo(String search,List<Video> searchUploader){
+        List<Video> list = new ArrayList<>();
+        System.out.println("searchUploader:"+searchUploader.size());
+        if(searchUploader.size()== 0){
+            return mainPublicMapper.findSearchVideo(search);
+        }else{
+            List<Video> searchVideo = mainPublicMapper.findSearchVideo(search);
+            boolean isSame;
+            for (int i = 0; i < searchVideo.size(); i++) {
+                isSame = false;
+                for (int j = 0; j < searchUploader.size(); j++) {
+                    if(searchVideo.get(i).getVideo_UID() == searchUploader.get(j).getVideo_UID()){
+                        isSame = true;
+                        break;
+                    }
+                    isSame = false;
+                }
+                if (isSame == false){
+                    list.add(searchVideo.get(i));
+                }
+            }
+            return list;
+        }
     }
 
 }

@@ -10,6 +10,7 @@ import youtubep.pjy.service.MainPublicService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,8 +25,8 @@ public class MainPublic {
 
 
     @GetMapping("/")
-    public String Home(HttpSession session){
-        String category = "All";
+    public String home(HttpSession session){
+        String category = "resent";
         List<Video> videos= mainPublicService.findAll(category);
         session.setAttribute("videos",videos);
         return "main_public";
@@ -36,9 +37,28 @@ public class MainPublic {
     }
 
     @PostMapping("/listview")
-    public String HomeView(@RequestParam("category") String category, HttpSession session){
+    public String homeView(@RequestParam("category") String category, HttpSession session){
         List<Video> videos= mainPublicService.findAll(category);
         session.setAttribute("videos",videos);
         return "listView";
+    }
+
+    @PostMapping("/searchPage")
+    public String searchPage(@RequestParam("search") String search, HttpSession session){
+        int isUserExist = mainPublicService.isUploaderExist(search);
+        List<Video> searchUploader = new ArrayList<>();
+        List<Video> searchVideoName = new ArrayList<>();
+        System.out.println("isUserExist: "+isUserExist);
+        if (isUserExist >= 1){
+            searchUploader = mainPublicService.findUploaderVideo(search);
+            searchVideoName = mainPublicService.findSearchVideo(search,searchUploader);
+        }
+        else{
+            searchVideoName = mainPublicService.findSearchVideo(search,searchUploader);
+            searchUploader = null;
+        }
+        session.setAttribute("searchUploader",searchUploader);
+        session.setAttribute("videos",searchVideoName);
+        return "SearchContent";
     }
 }

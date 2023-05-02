@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="kr">
+<style>
+    .wh {
+        width: 370px;
+        height: auto;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+</style>
+<div th:fragment="mainD_content" id="searchContent">
+    <div class="d-flex-dc" id="content">
+        <div style="display:flex;flex:1;width: 100%;flex-direction: column;margin-top: 2px;" id="listView">
+            <div style="display: flex;flex-direction: column;">
+                <div style="display: flex;" th:each="searchUploader, searchUploaderStat : ${session.searchUploader}">
+                    <div th:text="${searchUploaderStat.index}" hidden></div>
+                    <!--//-->
+                    <div style="display: flex;flex: 1;justify-content: space-between;padding: 10px;">
+                        <div class="wh" style="display: flex;flex: 1;">
+                            <div style="border: 1px solid;width: 33%;border-radius: 5%;min-height:200px;height: 200px;cursor: pointer;margin-right: 15px;">
+                                <a th:href="${'/videoPage/'+searchUploader.video_UID}">
+                                    <img style="width:100%;height:100%;filter: opacity(0.5);" alt=""
+                                         th:src="@{${searchUploader.video_SumName_URL}+ '?time=' + ${#dates.createNow().getTime()}}"></a>
+                            </div>
+                            <div style="display: flex;flex: 1;flex-direction: column;">
+                                <a th:href="${'/videoPage/'+searchUploader.video_UID}">
+                                    <div style="display:flex;flex:1;flex-wrap: wrap;width: 90%;align-content: center;cursor: pointer;line-height: 1.4;word-break: break-all;font-size: larger;"
+                                         th:text="${searchUploader.video_Name}">비디오제목
+                                    </div>
+                                </a>
+                                <div style="display: flex;margin-right: 5px;position: relative;align-items: center;">
+                                    <div style="display: flex;font-size: small;color: #909090;margin-right: 15px;"
+                                         th:text="'조회수: ' + ${searchUploader.views}+'회'">조회수: 0
+                                    </div>
+                                    <div style="display: flex;font-size: small;color: #909090"
+                                         th:text="${#dates.format(searchUploader.video_Join_Date,'yy-MM-dd HH:mm')}">8분 전
+                                    </div>
+                                </div>
+                                <div style="display: flex;margin-right: 5px;position: relative;top: 5px;align-items: center;">
+                                    <a th:href="${'/videoPage/'+searchUploader.video_UID}"
+                                       style="display: flex;width: 50px;height: 50px;">
+                                        <img th:src="${searchUploader.icon_URL}" alt="채널아이콘"
+                                             style="width: 100%;height: 100%;filter: opacity(0.8);">
+                                    </a>
+                                    <div style="padding: 0 5px;display: flex;" th:text="${searchUploader.channel_name}">채널이름
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; width:20px; height: 20px">
+                            <img src="/static/image/moreMypage.png" alt="" style="height: 100%;width: 100%">
+                        </div>
+                    </div>
+                    <!--//-->
+                </div>
+            </div>
+            <!--   -->
+            <div style="display: flex;flex-direction: column;">
+                <div th:if="${session.videos.size() <= 0}">검색결과가 없습니다.</div>
+                <div style="display: flex;" th:each="video, videoStat : ${session.videos}">
+                    <div th:text="${videoStat.index}" hidden></div>
+                    <!--//-->
+                    <div style="display: flex;flex: 1;justify-content: space-between;padding: 10px;">
+                        <div class="wh" style="display: flex;flex: 1;">
+                            <div style="border: 1px solid;width: 33%;border-radius: 5%;min-height:200px;height: 200px;cursor: pointer;margin-right: 15px;">
+                                <a th:href="${'/videoPage/'+video.video_UID}">
+                                    <img style="width:100%;height:100%;filter: opacity(0.5);" alt=""
+                                         th:src="@{${video.video_SumName_URL}+ '?time=' + ${#dates.createNow().getTime()}}"></a>
+                            </div>
+                            <div style="display: flex;flex: 1;flex-direction: column;">
+                                <a th:href="${'/videoPage/'+video.video_UID}">
+                                    <div style="display:flex;flex:1;flex-wrap: wrap;width: 90%;align-content: center;cursor: pointer;line-height: 1.4;word-break: break-all;font-size: larger;"
+                                         th:text="${video.video_Name}">비디오제목
+                                    </div>
+                                </a>
+                                <div style="display: flex;margin-right: 5px;position: relative;align-items: center;">
+                                    <div style="display: flex;font-size: small;color: #909090;margin-right: 15px;"
+                                         th:text="'조회수: ' + ${video.views}+'회'">조회수: 0
+                                    </div>
+                                    <div style="display: flex;font-size: small;color: #909090"
+                                         th:text="${#dates.format(video.video_Join_Date,'yy-MM-dd HH:mm')}">8분 전
+                                    </div>
+                                </div>
+                                <div style="display: flex;margin-right: 5px;position: relative;top: 5px;align-items: center;">
+                                    <a th:href="${'/videoPage/'+video.video_UID}"
+                                       style="display: flex;width: 50px;height: 50px;">
+                                        <img th:src="${video.icon_URL}" alt="채널아이콘"
+                                             style="width: 100%;height: 100%;filter: opacity(0.8);">
+                                    </a>
+                                    <div style="padding: 0 5px;display: flex;" th:text="${video.channel_name}">채널이름
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; width:20px; height: 20px">
+                            <img src="/static/image/moreMypage.png" alt="" style="height: 100%;width: 100%">
+                        </div>
+                    </div>
+                    <!--//-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
