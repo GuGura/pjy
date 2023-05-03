@@ -1,51 +1,205 @@
---USER
+--USERs----------------
 select *
 from Users;
+
+SELECT u.Icon_URL
+FROM video v
+         JOIN users u ON v.Upload_User = u.userID
+WHERE v.Video_UID = 29;
+
+select *
+from Users
+where ROWNUM = 1
+order by user_UID desc;
+
+delete from Users;
 DROP TABLE USERS;
+
 create table Users
 (
-    userID     varchar2(50) primary key,
-    password   varchar2(50)                 not null,
-    email      varchar2(100)                not null,
-    join_date  DATE         DEFAULT SYSDATE NOT NULL,
-    checkEmail varchar2(10) default 'false'
+    user_UID     NUMBER(10) primary key,
+    userID       varchar2(50) unique            not null,
+    password     varchar2(50)                   not null,
+    email        varchar2(100)                  not null,
+    CHANNEL_NAME varchar2(100),
+    description  varchar2(150)  default '채널 자세히 알아보기',
+    location     varchar2(50),
+    join_date    DATE           DEFAULT SYSDATE NOT NULL,
+    checkEmail   varchar2(10)   default 'false',
+    Icon_URL     varchar2(1000) default '/static/image/default/login.png',
+    Banner_URL   varchar2(1000) default '/static/image/default/banner.jpg'
 );
+CREATE SEQUENCE user_UID_seq START WITH 1 INCREMENT BY 1; --스퀀스
 commit;
 
+----------------video--------------------------------------------------------------
+DROP TABLE video;
+delete from video;
+Update VIDEO
+set Views = (Select Views + 1 from VIDEO where Video_UID = 61)
+where VIDEO_UID = 61;
+select *
+from VIDEO
+order by Video_Like desc;
 SELECT COUNT(*)
-FROM Users
-WHERE userID = 'wodus331'
-  and password = '1234';
-DROP TABLE channel_info;
---channel_info
-create table channel_info
+from VIDEO
+WHERE Upload_User Like 'wodus331';
+select sysdate, trunc(sysdate)
+from video;
+
+create table video
 (
-    userID      varchar2(50),                        -- 유저 아이디(FK(Users))
-    Channel_id  NUMBER(10) PRIMARY KEY,              --채널 아이디(PK)
-    Chanel_Name varchar2(100),                       --채널이름
-    description varchar2(150) default '채널 자세히 알아보기', -- 채널_설명
-    views       NUMBER        default 0,             -- 조회수
-    location    varchar2(50),                        -- 위치정보
-    Propel      varchar2(100)                        --프로필사진
+    Video_UID         NUMBER(10) primary key,
+    Upload_User       varchar2(50)               not null,
+    Video_SumName_URL varchar2(1000)             not null,
+    Video_URL         varchar2(1000)             not null,
+    Video_Name        varchar2(100)              not null,
+    Video_Description varchar2(2000)             not null,
+    Video_Join_Date   DATE       DEFAULT SYSDATE NOT NULL,
+    Video_Like        NUMBER(10) default 0,
+    Views             NUMBER(10) default 0
+);
+CREATE SEQUENCE Video_UID_seq START WITH 1 INCREMENT BY 1; --스퀀스
+drop sequence Video_UID_seq;
+
+
+-----------------------Video_Comment-----------------------------------------------
+select *
+from VIDEO_COMMENT
+order by Comment_Like desc;
+drop table Video_Comment;
+
+SELECT u.Icon_URL
+FROM Video_Comment c
+         JOIN users u ON c.Comment_UserID = u.userID
+WHERE c.Comment_UserID = 1;
+
+DELETE Video_Comment;
+insert into Video_Comment (Comment_UID, Video_UID, Comment_UserID, Comment_Description)
+
+create table Video_Comment --댓글
+(
+    Comment_UID         NUMBER(10) PRIMARY KEY,
+    Video_UID           NUMBER(10),
+    Comment_UserID      varchar2(50),
+    Comment_Description varchar2(500),
+    Comment_Join_Date   DATE       DEFAULT SYSDATE NOT NULL,
+    Comment_Like        Number(10) default 0
+);
+CREATE SEQUENCE Comment_UID_seq START WITH 1 INCREMENT BY 1; --스퀀스
+drop sequence Comment_UID_seq;
+commit;
+
+----------------------------------likeComment--------------------------------------------------
+select *
+from likeComment;
+drop table likeComment;
+delete
+from likeComment;
+commit;
+SELECT count(*)
+FROM likeComment
+WHERE Comment_UID = 40;
+insert into likeComment (Comment_UID, Video_UID, UserID)
+values (39, 51, 'wodus331');
+
+create table likeComment
+(
+    Comment_UID           NUMBER(10),                   --댓글 UID
+    Video_UID             NUMBER(10),
+    UserID                varchar2(50),                 -- 해당댓글 좋아요 누른 유저ID
+    CommentLike_Join_Date DATE DEFAULT SYSDATE NOT NULL --좋아요 누른 날짜
+);
+-----------------------VideoLike----------------------------------------
+CREATE TABLE VideoLike
+(
+    Video_UID           NUMBER(10),
+    userID              varchar2(50)         not null,
+    VIDEOLike_Join_Date DATE DEFAULT SYSDATE NOT NULL --좋아요 누른 날짜
 );
 
-CREATE TABLE channel_content
-(
-    content_id   NUMBER(10) PRIMARY KEY, -- 고유ID
-    Channel_id   NUMBER(10),             --channel_info(FK)
-    content_type varchar2(20),           --타입(게시판, 커뮤니티, 게시판-동영상, 게시판-글....)
-    description  CLOB,                   -- 내용
-    url          varchar2(255)           -- url
-);
 
-create table channel_comment --댓글
-(
-    comment_id   NUMBER(10) PRIMARY KEY, --고유ID
-    content_id   NUMBER(10),             --FK(channel_content)
-    userID       varchar2(50),           --FK(Users)
-    comment_text CLOB                    --댓글 내용
-);
 
 --시간나면 추가할 테이블
--- Likey 조아요 테이블   Channel_id |  content_id(조건) | likey
 -- CheckGmail Gmail인증 확인 테이블
+SELECT Icon_URL
+FROM (SELECT Icon_URL
+      FROM Users
+      ORDER BY user_UID)
+WHERE ROWNUM = 1;
+
+ALTER table Video_Comment
+    add lottie_state varchar2(1) default 'f';
+
+select *
+from VIDEO_COMMENT a
+         LEFT JOIN (select *
+                    from LIKECOMMENT
+                    where USERID = 'wodus331' and VIDEO_UID = 61) b on a.COMMENT_UID = b.COMMENT_UID
+where VIDEO_UID = 61;
+SELECT a.*, b.isLike
+FROM VIDEO_COMMENT a
+         LEFT JOIN (SELECT *, '' AS isLike
+                    FROM LIKECOMMENT
+                    WHERE USERID = 'wodus331'
+                      AND VIDEO_UID = 61) b ON a.COMMENT_UID = b.COMMENT_UID
+WHERE a.VIDEO_UID = 61;
+
+SELECT a.*, b.USERID
+FROM VIDEO_COMMENT a
+         LEFT JOIN (SELECT *
+                    FROM LIKECOMMENT
+                    WHERE USERID = 'wodus331'
+                      AND VIDEO_UID = 66
+                    order by COMMENT_UID desc) b ON a.COMMENT_UID = b.COMMENT_UID
+WHERE a.VIDEO_UID = 66
+order by a.COMMENT_UID desc;
+
+select *
+from VIDEO_COMMENT
+where VIDEO_UID = 66
+order by COMMENT_UID desc;
+SELECT count(*)
+FROM likeComment
+WHERE Comment_UID = 65;
+SELECT *
+FROM likeComment;
+-----------------------VideoLike----------------------------------------
+CREATE TABLE VideoLike
+(
+    Video_UID           NUMBER(10),
+    userID              varchar2(50)         not null,
+    VIDEOLike_Join_Date DATE DEFAULT SYSDATE NOT NULL --좋아요 누른 날짜
+);
+
+--관계도------------------------------------------------------------
+ALTER TABLE Video
+    ADD CONSTRAINT FK_Video_Users FOREIGN KEY (Upload_User) REFERENCES Users (userID);
+ALTER TABLE Video_Comment ADD CONSTRAINT FK_Video_Comment_Video FOREIGN KEY (Video_UID) REFERENCES Video(Video_UID);
+ALTER TABLE likeComment ADD CONSTRAINT FK_likeComment_Video_Comment FOREIGN KEY (Comment_UID) REFERENCES Video_Comment(Comment_UID);
+ALTER TABLE likeComment ADD CONSTRAINT FK_likeComment_Users FOREIGN KEY (UserID) REFERENCES Users(userID);
+
+ALTER TABLE Video DROP CONSTRAINT FK_Video_Users;
+ALTER TABLE Video_Comment DROP CONSTRAINT FK_Video_Comment_Video;
+ALTER TABLE likeComment DROP CONSTRAINT FK_likeComment_Video_Comment;
+ALTER TABLE likeComment DROP CONSTRAINT FK_likeComment_Users;
+
+----------------------------------------------------------------------------------------
+SELECT *
+FROM VideoLike;
+insert into VideoLike(Video_UID, userID)
+values (78, 'wodus331');
+
+SELECT b.userID
+from video a
+         LEFT JOIN (SELECT *
+                    FROM VIDEOLIKE
+                    WHERE Video_UID = 78 AND userID = 'wodus331') b ON a.VIDEO_UID = b.Video_UID
+WHERE a.VIDEO_UID = 78;
+
+SELECT a.userID, b.*
+from USERS a
+         LEFT JOIN (SELECT *
+                    FROM VIDEO) b ON a.userID = b.Upload_User
+WHERE CHANNEL_NAME Like '웰컴투';
+
