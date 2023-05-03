@@ -11,6 +11,7 @@ import youtubep.pjy.service.MyPageService;
 import youtubep.pjy.service.UserService;
 
 import javax.servlet.http.HttpSession;
+import java.util.regex.Pattern;
 
 @Controller
 public class UserController {
@@ -65,6 +66,14 @@ public class UserController {
      */
     @PostMapping("/singUp")
     public String singUpCheck(UserForm form, Model model){
+        String passwdPatten = "^[A-Z](?=.*[a-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{7,}$";
+        if(!Pattern.matches(passwdPatten,form.getPassword())){
+            model.addAttribute("isCheckId","passwd");
+            model.addAttribute("userID",form.getUserID());
+            model.addAttribute("passwd",form.getPassword());
+            model.addAttribute("email",form.getEmail());
+            return "singup";
+        }
         User user = new User();
         user.setUserID(form.getUserID());
         user.setPassword(form.getPassword());
@@ -86,15 +95,21 @@ public class UserController {
      */
     @PostMapping("/checkId")
     public String checkId(UserForm form,Model model){
-        boolean result = userService.validateDuplicateMember(form.getUserID());
-        if(result == true){
-            model.addAttribute("isCheckId","true");
-        }else if(result == false){
-            model.addAttribute("isCheckId","false");
-            model.addAttribute("userID",form.getUserID());
-            model.addAttribute("passwd",form.getPassword());
-            model.addAttribute("email",form.getEmail());
+        String idPattern = "^[A-Za-z][A-Za-z0-9]{7,11}$";
+        if(!Pattern.matches(idPattern,form.getUserID())){
+            model.addAttribute("isCheckId","id");
+        }else{
+            boolean result = userService.validateDuplicateMember(form.getUserID());
+            if(result == true){
+                model.addAttribute("isCheckId","true");
+            }else if(result == false){
+                model.addAttribute("isCheckId","false");
+                model.addAttribute("userID",form.getUserID());
+                model.addAttribute("passwd",form.getPassword());
+                model.addAttribute("email",form.getEmail());
+            }
         }
+
         return "singup";
     }
 

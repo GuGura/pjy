@@ -27,6 +27,8 @@ public class MainPublicService {
             video = mainPublicMapper.findAll2();
         }else if (category.equals("view")){
            video = mainPublicMapper.findAll3();
+       }else if(category.equals("old")){
+           video = mainPublicMapper.findAll4();
        }
         else{
             video = mainPublicMapper.findAll();

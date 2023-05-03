@@ -56,24 +56,40 @@ function category(x) {
         $('#category > div:nth-of-type(2) input').css('color', 'black');
         $('#category > div:nth-of-type(3) input').css('background-color', '#F2F2F2');
         $('#category > div:nth-of-type(3) input').css('color', 'black');
+        $('#category > div:nth-of-type(4) input').css('background-color', '#F2F2F2');
+        $('#category > div:nth-of-type(4) input').css('color', 'black');
         category = 'resent';
-    }
-    if (x == 'p') {
+    }if (x == 'o') {
         $('#category > div:nth-of-type(2) input').css('background-color', '#060606');
         $('#category > div:nth-of-type(2) input').css('color', 'white');
         $('#category > div:nth-of-type(1) input').css('background-color', '#F2F2F2');
         $('#category > div:nth-of-type(1) input').css('color', 'black');
         $('#category > div:nth-of-type(3) input').css('background-color', '#F2F2F2');
         $('#category > div:nth-of-type(3) input').css('color', 'black');
+        $('#category > div:nth-of-type(4) input').css('background-color', '#F2F2F2');
+        $('#category > div:nth-of-type(4) input').css('color', 'black');
+        category = 'old';
+    }
+    if (x == 'p') {
+        $('#category > div:nth-of-type(3) input').css('background-color', '#060606');
+        $('#category > div:nth-of-type(3) input').css('color', 'white');
+        $('#category > div:nth-of-type(1) input').css('background-color', '#F2F2F2');
+        $('#category > div:nth-of-type(1) input').css('color', 'black');
+        $('#category > div:nth-of-type(2) input').css('background-color', '#F2F2F2');
+        $('#category > div:nth-of-type(2) input').css('color', 'black');
+        $('#category > div:nth-of-type(4) input').css('background-color', '#F2F2F2');
+        $('#category > div:nth-of-type(4) input').css('color', 'black');
         category = 'popular';
     }
     if (x == 's') {
-        $('#category > div:nth-of-type(3) input').css('background-color', '#060606');
-        $('#category > div:nth-of-type(3) input').css('color', 'white');
+        $('#category > div:nth-of-type(4) input').css('background-color', '#060606');
+        $('#category > div:nth-of-type(4) input').css('color', 'white');
         $('#category > div:nth-of-type(2) input').css('background-color', '#F2F2F2');
         $('#category > div:nth-of-type(2) input').css('color', 'black');
         $('#category > div:nth-of-type(1) input').css('background-color', '#F2F2F2');
         $('#category > div:nth-of-type(1) input').css('color', 'black');
+        $('#category > div:nth-of-type(3) input').css('background-color', '#F2F2F2');
+        $('#category > div:nth-of-type(3) input').css('color', 'black');
         category = 'view';
     }
     const formData = new FormData();

@@ -13,33 +13,33 @@ function VideoLike(){
     console.log(userid);
     if(userid == ""){
         location.href="/login";
-    }
-    let videoLike_lottie = $('#videoLike')[0]['_lottie'];
-    console.dir(videoLike_lottie);
-    let VideoLike_Checked = $('#videoLike').next("#videoLikeCheck")[0].checked;
-    console.log(VideoLike_Checked);
-    const formData = new FormData();
-    formData.append("checked",VideoLike_Checked);
-    $.ajax({
-        method:'post',
-        data : formData,
-        contentType : false,
-        processData : false,
-        url : "/video/like",
-        success : function (result){
-            console.dir(result);
-            if(result.like == false){
-                $('#videoLikeCnt').text('좋아요: '+result.likeCnt);
-                videoLike_lottie.playSegments([0,25],true);
-                $('#videoLike').next("#videoLikeCheck")[0].checked = true;
-            }else{
-                $('#videoLikeCnt').text('좋아요: '+result.likeCnt);
-                videoLike_lottie.playSegments([22,0],true);
-                $('#videoLike').next("#videoLikeCheck")[0].checked = false;
+    }else{
+        let videoLike_lottie = $('#videoLike')[0]['_lottie'];
+        console.dir(videoLike_lottie);
+        let VideoLike_Checked = $('#videoLike').next("#videoLikeCheck")[0].checked;
+        console.log(VideoLike_Checked);
+        const formData = new FormData();
+        formData.append("checked",VideoLike_Checked);
+        $.ajax({
+            method:'post',
+            data : formData,
+            contentType : false,
+            processData : false,
+            url : "/video/like",
+            success : function (result){
+                console.dir(result);
+                if(result.like == false){
+                    $('#videoLikeCnt').text('좋아요: '+result.likeCnt);
+                    videoLike_lottie.playSegments([0,25],true);
+                    $('#videoLike').next("#videoLikeCheck")[0].checked = true;
+                }else{
+                    $('#videoLikeCnt').text('좋아요: '+result.likeCnt);
+                    videoLike_lottie.playSegments([22,0],true);
+                    $('#videoLike').next("#videoLikeCheck")[0].checked = false;
+                }
             }
-        }
-    })
-
+        })
+    }
 }
 
 function commentLike(event,id) {

@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface MainPublicMapper {
 
-    @Select("SELECT * FROM VIDEO")
+    @Select("SELECT * FROM VIDEO order by Video_UID desc")
     List<Video> findAll();
 
     @Select("SELECT * FROM VIDEO order by Video_Like desc")
@@ -19,6 +19,9 @@ public interface MainPublicMapper {
 
     @Select("SELECT * FROM VIDEO order by Views desc")
     List<Video> findAll3();
+
+    @Select("SELECT * FROM VIDEO order by Video_UID ")
+    List<Video> findAll4();
 
     @Select("SELECT count(*)\n" +
             "from USERS a\n" +

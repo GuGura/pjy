@@ -57,6 +57,7 @@ public class MainPublic {
             searchVideoName = mainPublicService.findSearchVideo(search,searchUploader);
             searchUploader = null;
         }
+        session.setAttribute("search",search);
         session.setAttribute("searchUploader",searchUploader);
         session.setAttribute("videos",searchVideoName);
         return "SearchContent";
