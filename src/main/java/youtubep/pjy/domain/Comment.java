@@ -11,7 +11,7 @@ public class Comment {
     private int Comment_Like;
 
     private String isChecked; // LIKECOMMENT에서 조인
-    private String icon_URL; //Users테이브에서 조인 예정
+    private String icon_URL; //Users테이브에서 조인
 
     public String getIsChecked() {
         return isChecked;

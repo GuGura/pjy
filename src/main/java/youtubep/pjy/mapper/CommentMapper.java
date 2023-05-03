@@ -19,6 +19,12 @@ public interface CommentMapper {
     @Delete("DELETE Video_Comment where comment_UID = #{comment_UID}")
     void deleteComment(int comment_UID);
 
+    @Delete("DELETE VideoLike where Video_UID = #{video_UID}")
+    void deleteAllVideoLike(int video_UID);
+
+    @Delete("DELETE likeComment where Video_UID = #{Video_UID}")
+    void deleteAllCommentLike(int video_UID);
+
     @Insert("insert into Video_Comment (Comment_UID, Video_UID, Comment_UserID, Comment_Description) values (Comment_UID_seq.NEXTVAL, #{video_UID}, #{comment_UserID}, #{comment_Description})")
     void save(Comment comment);
 

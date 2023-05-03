@@ -35,8 +35,10 @@ public class VideoUploadService {
      * 비디오 삭제
      */
     public void deleteVideo(int video_UID){
-        videoUploadMapper.deleteVideo(video_UID);
+        commentMapper.deleteAllCommentLike(video_UID);
+        commentMapper.deleteAllVideoLike(video_UID);
         commentMapper.deleteComment(video_UID);
+        videoUploadMapper.deleteVideo(video_UID);
     }
     /**
      * 형식검사?

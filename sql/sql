@@ -30,6 +30,7 @@ create table Users
     Banner_URL   varchar2(1000) default '/static/image/default/banner.jpg'
 );
 CREATE SEQUENCE user_UID_seq START WITH 1 INCREMENT BY 1; --스퀀스
+drop sequence user_UID_seq;
 commit;
 
 ----------------video--------------------------------------------------------------
@@ -73,7 +74,7 @@ SELECT u.Icon_URL
 FROM Video_Comment c
          JOIN users u ON c.Comment_UserID = u.userID
 WHERE c.Comment_UserID = 1;
-
+ROLLBACK;
 DELETE Video_Comment;
 insert into Video_Comment (Comment_UID, Video_UID, Comment_UserID, Comment_Description)
 
@@ -118,7 +119,7 @@ CREATE TABLE VideoLike
     VIDEOLike_Join_Date DATE DEFAULT SYSDATE NOT NULL --좋아요 누른 날짜
 );
 
-
+drop table VideoLike;
 
 --시간나면 추가할 테이블
 -- CheckGmail Gmail인증 확인 테이블
@@ -165,25 +166,29 @@ WHERE Comment_UID = 65;
 SELECT *
 FROM likeComment;
 -----------------------VideoLike----------------------------------------
-CREATE TABLE VideoLike
-(
-    Video_UID           NUMBER(10),
-    userID              varchar2(50)         not null,
-    VIDEOLike_Join_Date DATE DEFAULT SYSDATE NOT NULL --좋아요 누른 날짜
-);
+delete
+from VideoLike;
 
 --관계도------------------------------------------------------------
 ALTER TABLE Video
     ADD CONSTRAINT FK_Video_Users FOREIGN KEY (Upload_User) REFERENCES Users (userID);
-ALTER TABLE Video_Comment ADD CONSTRAINT FK_Video_Comment_Video FOREIGN KEY (Video_UID) REFERENCES Video(Video_UID);
-ALTER TABLE likeComment ADD CONSTRAINT FK_likeComment_Video_Comment FOREIGN KEY (Comment_UID) REFERENCES Video_Comment(Comment_UID);
-ALTER TABLE likeComment ADD CONSTRAINT FK_likeComment_Users FOREIGN KEY (UserID) REFERENCES Users(userID);
 
 ALTER TABLE Video DROP CONSTRAINT FK_Video_Users;
+
+
+------------------------제외----------------------------------------------------------------
+
+ALTER TABLE likeComment ADD CONSTRAINT FK_likeComment_Video_Comment FOREIGN KEY (Comment_UID) REFERENCES Video_Comment(Comment_UID);
+ALTER TABLE likeComment ADD CONSTRAINT FK_likeComment_Users FOREIGN KEY (UserID) REFERENCES Users(userID);
+ALTER TABLE VideoLike ADD CONSTRAINT FK_VideoLike_Video FOREIGN KEY (Video_UID) REFERENCES Video(Video_UID);
+ALTER TABLE VideoLike ADD CONSTRAINT FK_VideoLike_Users FOREIGN KEY (UserID) REFERENCES Users(userID);
+ALTER TABLE Video_Comment ADD CONSTRAINT FK_Video_Comment_Video FOREIGN KEY (Video_UID) REFERENCES Video(Video_UID);
+
 ALTER TABLE Video_Comment DROP CONSTRAINT FK_Video_Comment_Video;
 ALTER TABLE likeComment DROP CONSTRAINT FK_likeComment_Video_Comment;
 ALTER TABLE likeComment DROP CONSTRAINT FK_likeComment_Users;
-
+ALTER TABLE VideoLike DROP CONSTRAINT FK_VideoLike_Video;
+ALTER TABLE VideoLike DROP CONSTRAINT FK_VideoLike_Users;
 ----------------------------------------------------------------------------------------
 SELECT *
 FROM VideoLike;
