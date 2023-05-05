@@ -2,6 +2,7 @@ package youtubep.pjy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import youtubep.pjy.controller.FileUploadController;
 
 import java.io.File;
@@ -10,7 +11,10 @@ import java.io.File;
 public class PjyApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PjyApplication.class, args);
+		ApplicationContext application = SpringApplication.run(PjyApplication.class, args);
+		for(String str : application.getBeanDefinitionNames()){
+			System.out.println(str);
+		}
 	}
 
 }
